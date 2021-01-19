@@ -27,7 +27,7 @@ while brk == 0:
 	command = "rm -rf /home/pi/Share/projects/covid/temp/*"
 	res = os.popen(command).read()
 	
-	time.sleep(60)
+	time.sleep(300)
 	brk = 0
 
 
