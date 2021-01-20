@@ -8,10 +8,10 @@ import pymssql
 import pandas as pd
 
 def importToDB(filePath):
-	server = "renjie.rocks"
-	user = "boroger"
-	password = "password1!"
-	db = "Test"
+	server = "server"
+	user = "user"
+	password = "password"
+	db = "db"
 
 	with open(filePath,'r') as f:
 		txt = f.read()
