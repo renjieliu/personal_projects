@@ -8,10 +8,10 @@ import pymssql
 import pandas as pd
 
 def importToDB(filePath):
-	server = "server"
-	user = "user"
-	password = "password"
-	db = "db"
+	server = "renjie.rocks"
+	user = "boroger"
+	password = "password1!"
+	db = "Test"
 
 	with open(filePath,'r') as f:
 		txt = f.read()
@@ -37,7 +37,7 @@ def importToDB(filePath):
 	command = []
 	currTime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
 	for name,iso_code,cases,recovered,deaths,data_updated,last_bot_check,state_province,id in arr:
-		command.append(f"insert into covid values('{id}', '{name}','{iso_code}',{cases},{recovered},{deaths},'{data_updated}','{last_bot_check}','{state_province}', '{currTime}' )")
+		command.append(f"insert into covid values('{id}', '{name}','{iso_code}',{cases},{recovered},{deaths},'{data_updated}','{last_bot_check}','{state_province}', '{currTime}','{filePath}' )")
 		
 	conn = pymssql.connect(server, user, password, db)
 	cursor = conn.cursor()
@@ -79,6 +79,6 @@ while brk == 0: #get the file from the website and check if there's a change com
 	res = os.popen(command).read()
 	
 	time.sleep(300)
-	brk = 0
+	brk = 0 
 
 
