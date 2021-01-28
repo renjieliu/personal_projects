@@ -1,8 +1,21 @@
---create index idx_date on spy(date) 
+/* -- create the raw data table
+select tick = cast('SPY' as varchar(200)),  * into market from spy where 1=0
+
+alter table market alter column volume bigint
+
+insert into market
+select tick = 'SPY',  * from spy
+
+insert into market
+select tick = 'GSPC', * from GSPC 
+
+*/
+
 
 drop table if exists #base
 
-select * into #base from GSPC
+select * into #base from market where tick = 'SPY'
+
 create index idx_date on #base(date) 
 
 
@@ -51,12 +64,12 @@ on case when fd.fillDate = fd.date then fd.date else fd.filldate end = s.date
 
 
 ;
-declare @year int = 30 
+declare @year int = 15 
 declare @maxDate date = (select date = max(date) from #cleanData)
 
 select APY = power(c2.OpenPrice/c1.OpenPrice ,1.0/@year )-1, 
 c1.*
-, delimiter =  '<<When taking out>>'
+, delimiter =  '<<When taking out at:>>'
 ,c2.* from #cleanData c1 left outer join #cleanData c2
 on 
 case when DATEADD(year, @year, c1.date) > @maxDate
@@ -65,6 +78,7 @@ case when DATEADD(year, @year, c1.date) > @maxDate
 end = c2.date
 where c1.date < dateadd(year, -@year, @maxDate)
 order by 1 asc 
+
 
 
 
