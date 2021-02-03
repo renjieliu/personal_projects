@@ -12,16 +12,23 @@ select tick = 'GSPC', * from GSPC
 */
 
 
-drop table if exists #base
+drop table if exists #landing
 
-select * into #base from market m
+select * into #landing from market m
 where tick = 'SPY' 
 and ISNUMERIC(OpenPrice)= 1 
-and not exists (select * from market m1 where m1.tick = m.tick and ISNUMERIC(m1.OpenPrice) = 1 and m1.Insert_Date > m.Insert_Date)
+
+create index idx_InsertDate on #landing(Insert_Date)
+
+drop table if exists #base
+
+select * 
+into #base 
+from #landing t 
+where not exists (select * from #landing t1 where t1.Insert_Date > t.Insert_Date)
 
 
 create index idx_date on #base(date) 
-
 
 declare @startDate date = (select min(date) from #base )
 declare @endDate date = (select max(date) from #base)
@@ -82,6 +89,3 @@ case when DATEADD(year, @year, c1.date) > @maxDate
 end = c2.date
 where c1.date < dateadd(year, -@year, @maxDate)
 order by 1 asc 
-
-
-
