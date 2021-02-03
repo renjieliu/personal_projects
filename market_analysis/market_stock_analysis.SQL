@@ -14,7 +14,11 @@ select tick = 'GSPC', * from GSPC
 
 drop table if exists #base
 
-select * into #base from market where tick = 'SPY'
+select * into #base from market m
+where tick = 'SPY' 
+and ISNUMERIC(OpenPrice)= 1 
+and not exists (select * from market m1 where m1.tick = m.tick and ISNUMERIC(m1.OpenPrice) = 1 and m1.Insert_Date > m.Insert_Date)
+
 
 create index idx_date on #base(date) 
 
@@ -69,7 +73,7 @@ declare @maxDate date = (select date = max(date) from #cleanData)
 
 select APY = power(c2.OpenPrice/c1.OpenPrice ,1.0/@year )-1, 
 c1.*
-, delimiter =  '<<When taking out at:>>'
+,delimiter =  '<<When taking out at:>>'
 ,c2.* from #cleanData c1 left outer join #cleanData c2
 on 
 case when DATEADD(year, @year, c1.date) > @maxDate
@@ -78,8 +82,6 @@ case when DATEADD(year, @year, c1.date) > @maxDate
 end = c2.date
 where c1.date < dateadd(year, -@year, @maxDate)
 order by 1 asc 
-
-
 
 
 
