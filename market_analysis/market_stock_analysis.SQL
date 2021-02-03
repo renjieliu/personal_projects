@@ -14,7 +14,17 @@ select tick = 'GSPC', * from GSPC
 
 drop table if exists #landing
 
-select * into #landing from market m
+select 
+tick
+,Date
+,OpenPrice = cast(OpenPrice as decimal(10,5))
+,HighPrice = cast(HighPrice as decimal(10,5))
+,LowPrice = cast(LowPrice as decimal(10,5))
+,ClosePrice = cast(ClosePrice as decimal(10,5))
+,Adj_Close = cast(Adj_Close as decimal(10,5))
+,Volume = cast(Volume as decimal(38,5))
+,Insert_Date
+into #landing from market m
 where tick = 'SPY' 
 and ISNUMERIC(OpenPrice)= 1 
 
@@ -75,7 +85,7 @@ on case when fd.fillDate = fd.date then fd.date else fd.filldate end = s.date
 
 
 ;
-declare @year int = 15 
+declare @year int = 20
 declare @maxDate date = (select date = max(date) from #cleanData)
 
 select APY = power(c2.OpenPrice/c1.OpenPrice ,1.0/@year )-1, 
