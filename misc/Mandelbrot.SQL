@@ -33,11 +33,11 @@ declare @threshold int = 1000
 declare @iteration int = 40
 
 declare @realStart decimal(38,10) = -1.6
-declare @realEnd decimal(38,10) = 2.6 --0.6
+declare @realEnd decimal(38,10) =  0.6
 declare @realStep decimal(38,10) = 0.02
 
-declare @imgStart decimal(38,10) = -2.6 -- -1.2
-declare @imgEnd decimal(38,10) = 2.6 -- 1.2
+declare @imgStart decimal(38,10) = -1.2
+declare @imgEnd decimal(38,10) = 1.2
 declare @imgStep decimal(38,10) = 0.06
 
 
