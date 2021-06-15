@@ -1,3 +1,8 @@
+--Revised on 2021-06-15 by Renjie Liu
+--Original Data Source: https://divvy-tripdata.s3.amazonaws.com/index.html
+
+
+
 --3885182 
 select count(1) from bike_coursera 
 
@@ -16,6 +21,7 @@ order by 1, 2
 select 
 member_casual
 , rideable_type
+, weekday = datepart(dw, 
 , rides = count(*)
 , avgDuration = avg(DATEDIFF(second, started_at , ended_at)+1.0)
 , totalDuration = sum(DATEDIFF(second, started_at , ended_at)+1.0) from bike_coursera 
