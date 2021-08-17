@@ -3,92 +3,188 @@
 drop table if exists #t
 drop table if exists #grid
 
-declare @step decimal(38,5) = 0.1
-declare @start decimal(38,5) = 8.0
-declare @end decimal(38,5) = 15.0
+
+declare @start decimal(38,5) = 0
+declare @end decimal(38,5) = 500
+declare @step decimal(38,5) = 5
 
 
 
 ;
-with r as (
+with x as 
+(select n = @start
+union all 
+select cast(n+@step as decimal(38,5)) from x
+where n+@step <= @end 
+), 
+y as (
 select n = @start
 union all 
 select cast(n+@step as decimal(38,5))
-from r 
+from y 
 where n+@step <= @end
 )
-, c as 
-(select n = @start
-union all 
-select cast(n+@step as decimal(38,5)) from c
-where n+@step <= @end 
-)select rn = r.n, cn = c.n into #grid from r, c
-
-
-;
-with r as (
-select n = @start
-union all 
-select cast(n+@step as decimal(38,5))
-from r 
-where n+@step <= @end
-)
-, c as 
-(select n = @start
-union all 
-select cast(n+@step as decimal(38,5)) from c
-where n+@step <= @end 
-), staging1 as (
-select rn = r.n, cn = c.n
-, symbol = case when power(r.n-10, 2)+ power(c.n-10, 2) < 4 then '*' else null end 
-from r, c 
-)
-, staging2 as (
-select rn = r.n, cn = c.n
-, symbol = case when power(r.n-13, 2)+ power(c.n-10, 2) < 4 then '*' else null end 
-from r, c 
-)
-select t = 'staging1', * into #t from staging1  
-union all 
-select t = 'staging2', * from staging2
+select yn = y.n, xn = x.n into #grid from x, y 
 option(maxrecursion 0)
 
 
-create index idx_t on #t(t)
+;
+with x as 
+(select n = @start
+union all 
+select cast(n+@step as decimal(38,5)) from x
+where n+@step <= @end 
+)
+, y as (
+select n = @start
+union all 
+select cast(n+@step as decimal(38,5))
+from y 
+where n+@step <= @end
+)
+, left_big  as (
+select ctename = 'left_big',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-204, 2)+ power(y.n-277, 2) < 40000 then '*' else null end 
+from x, y
+)
+, right_big as (
+select ctename = 'right_big',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-271, 2)+ power(y.n-277, 2) < 40000 then '*' else null end 
+from x, y
+)
+, bite as (
+select ctename = 'bite',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-418, 2)+ power(y.n-287, 2) < 6400 then '*' else null end 
+from x, y
+)
+, top_left as (
+select ctename = 'top_left',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-156, 2)+ power(y.n-239, 2) < 6400 then '*' else null end 
+from x, y
+)
+, top_right as (
+select ctename = 'top_right',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-312, 2)+ power(y.n-239, 2) < 6400 then '*' else null end 
+from x, y
+)
+, apple_top as (
+select ctename = 'apple_top',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-238, 2)+ power(y.n-98, 2) < 6400 then '*' else null end 
+from x, y
+)
+, left_leaf as (
+select ctename = 'left_leaf',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-235, 2)+ power(y.n-83, 2) < 6400 then '*' else null end 
+from x, y
+)
+, right_leaf as (
+select ctename = 'right_leaf',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-320, 2)+ power(y.n-157, 2) < 6400 then '*' else null end 
+from x, y
+)
+, bite_assis as (
+select ctename = 'bite_assis',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-299, 2)+ power(y.n-396, 2) < 6400 then '*' else null end 
+from x, y
+)
+, bottom as 
+(
+select ctename = 'bottom',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-238, 2)+ power(y.n-514, 2) < 6400 then '*' else null end 
+from x, y
+)
+, middle_small as 
+(
+select ctename = 'middle_small',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-238, 2)+ power(y.n-396, 2) < 100 then '*' else null end 
+from x, y
+)
+, left_5 as 
+(
+select ctename = 'left_5',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-177, 2)+ power(y.n-396, 2) < 2500 then '*' else null end 
+from x, y
+)
+, right_5 as 
+(
+select ctename = 'right_5',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-299, 2)+ power(y.n-396, 2) < 2500 then '*' else null end 
+from x, y
+)
+, left_3 as 
+(
+select ctename = 'left_3',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-114, 2)+ power(y.n-344, 2) < 900 then '*' else null end 
+from x, y
+)
+, right_3 as 
+(
+select ctename = 'right_3',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-363, 2)+ power(y.n-344, 2) < 900 then '*' else null end 
+from x, y
+)
+, mid_13 as 
+(
+select ctename = 'mid_13',  xn = x.n, yn = y.n
+, symbol = case when power(x.n-238, 2)+ power(y.n-298, 2) < 16900 then '*' else null end 
+from x, y
+)
+select * into #t 
+from left_big
+union all select * from right_big
+union all select * from bite
+union all select * from top_left
+union all select * from top_right
+union all select * from apple_top
+union all select * from left_leaf
+union all select * from right_leaf
+union all select * from bite_assis
+union all select * from bottom
+union all select * from middle_small
+union all select * from left_5
+union all select * from right_5
+union all select * from left_3
+union all select * from right_3
+union all select * from mid_13
+option(maxrecursion 0)
 
 
---select rn,  STRING_AGG(symbol, ' ') within group(order by cn)  
---from (
---select rn, cn, symbol from #t where t = 'staging1' ) t
---group by rn
---order by 1
---option(maxrecursion 0)
 
+create index idx_t on #t(ctename)
 
---select rn,  STRING_AGG(symbol, ' ') within group(order by cn)  
---from (
---select rn, cn, symbol from #t where t = 'staging2' ) t
---group by rn
---order by 1
---option(maxrecursion 0)
 go 
+
+
 
 with staging as
 (
-	select distinct grid.rn , grid.cn , symbol = isnull(t.symbol, ' ')-- coalesce(t1.symbol, t2.symbol, ' ')
+	select distinct grid.xn , grid.yn , symbol = isnull(t.symbol, ' ')-- coalesce(t1.symbol, t2.symbol, ' ')
 	from #grid grid 
 	left outer join 
 	(
-		--select t1.rn, t1.cn, t1.symbol from 
-			(select rn, cn, symbol from #t where t = 'staging1' and symbol='*') 
-				intersect
-			(select rn, cn, symbol from #t where t = 'staging2' and symbol='*')  
-	) t on grid.rn = t.rn and grid.cn = t.cn 
+			(select xn, yn, symbol from #t where ctename = 'left_big' and symbol='*') 
+			intersect
+			(select xn, yn, symbol from #t where ctename = 'right_big' and symbol='*')  
+			intersect
+			
+			(select xn, yn, symbol from #t where ctename = 'top_left' and symbol='*'
+		     union 
+			 select xn, yn, symbol from #t where ctename = 'top_right' and symbol='*'
+			)
+			except
+			(select xn, yn, symbol from #t where ctename = 'bite' and symbol='*')  
+			union 
+			(select xn, yn, symbol from #t where ctename = 'left_leaf' and symbol='*'
+			 intersect
+			 select xn, yn, symbol from #t where ctename = 'right_leaf' and symbol='*'
+			) 
+
+	) t on grid.xn = t.xn and grid.yn = t.yn 
 )
 
-select rn,  STRING_AGG(symbol, ' ') within group(order by cn)   
+select yn,  STRING_AGG(symbol, ' ') within group(order by xn)   
 from staging
-group by rn
+group by yn
 order by 1 
 
 
