@@ -287,8 +287,8 @@ declare @format int = 1 -- 1 as band, 2 as radius
  where symbol = '*'
 )
 , radius  as 
-(select radius = greatest( sqrt( power( (select mn_x from points_Range)-250, 2) + power( (select mn_y from points_Range)-250, 2) ) ,
-				           sqrt( power( (select mx_x from points_Range)-250, 2) + power( (select mx_y from points_Range)-250, 2) )
+(select radius = greatest( sqrt( power( (select mn_x from points_Range)-(@start+@end/2), 2) + power( (select mn_y from points_Range)-(@start+@end/2), 2) ) ,
+				           sqrt( power( (select mx_x from points_Range)-(@start+@end/2), 2) + power( (select mx_y from points_Range)-(@start+@end/2), 2) )
 						  )
 )
 select @y0 = (select mn_y from points_Range),  @band = mx_y - mn_y, @radius = (select radius from radius) from points_Range
