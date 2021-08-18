@@ -5,9 +5,9 @@ drop table if exists #grid
 drop table if exists #staging
 
 
-declare @start decimal(38,5) = 0
-declare @end decimal(38,5) = 500
-declare @step decimal(38,5) = 5
+declare @start decimal(38,5) = 0 -- do not change
+declare @end decimal(38,5) = 500 --do not change
+declare @step decimal(38,5) = 5 -- min:1, max: 20
 
 ;
 with x as 
