@@ -129,9 +129,9 @@ select ctename = 'mid_13',  xn = x.n, yn = y.n
 , symbol = case when power(x.n-238, 2)+ power(y.n-298, 2) < 16900 then '*' else null end 
 from x, y
 )
-, left_upper_corner as 
+, left_upper_corner as  -- need to take extra points, the extra part is left_upper_corner intersect with right large, minus top_left, minus apple_top
 (
-select ctename = 'left_upper_corner',  xn = xn, yn = yn
+select ctename = 'left_upper_corner',  xn = xn, yn = yn 
 , symbol = '*'
 from #grid 
 where xn between 82 and 190 
