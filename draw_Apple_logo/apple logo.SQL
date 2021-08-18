@@ -129,6 +129,39 @@ select ctename = 'mid_13',  xn = x.n, yn = y.n
 , symbol = case when power(x.n-238, 2)+ power(y.n-298, 2) < 16900 then '*' else null end 
 from x, y
 )
+, left_upper_corner as 
+(
+select ctename = 'left_upper_corner',  xn = xn, yn = yn
+, symbol = '*'
+from #grid 
+where xn between 82 and 190 
+  and yn between 107 and 199
+)
+, right_upper_corner as 
+(
+select ctename = 'right_upper_corner',  xn = xn, yn = yn
+, symbol = '*'
+from #grid 
+where xn between 289 and 390
+  and yn between 108 and 198
+)
+, left_lower_corner as 
+(
+select ctename = 'left_lower_corner',  xn = xn, yn = yn
+, symbol = '*'
+from #grid 
+where xn between 157 and 191
+  and yn between 443 and 457
+)
+, right_lower_corner as 
+(
+select ctename = 'right_lower_corner',  xn = xn, yn = yn
+, symbol = '*'
+from #grid 
+where xn between 283 and 320
+  and yn between 443 and 457
+)
+
 select * into #t 
 from left_big
 union all select * from right_big
@@ -146,6 +179,10 @@ union all select * from right_5
 union all select * from left_3
 union all select * from right_3
 union all select * from mid_13
+union all select * from left_upper_corner
+union all select * from right_upper_corner
+union all select * from left_lower_corner
+union all select * from right_lower_corner
 option(maxrecursion 0)
 
 
@@ -173,16 +210,58 @@ with staging as
 			select xn, yn, symbol from #t where ctename = 'bite' and symbol='*'
 			)  
 			
+			except -- left upper corner
+
+			(
+			select xn, yn, symbol from #t where ctename = 'left_upper_corner' and symbol='*' 
+			intersect 
+			select xn, yn, symbol from #t where ctename = 'right_big' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'top_left' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'apple_top' and symbol='*'
+			)
 			
-			--intersect
+
+
+			except -- right upper corner
+
+			(
+			select xn, yn, symbol from #t where ctename = 'right_upper_corner' and symbol='*' 
+			intersect 
+			select xn, yn, symbol from #t where ctename = 'left_big' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'top_right' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'apple_top' and symbol='*'
+			)
+
+			except -- left lower corner
+
+			(
+			select xn, yn, symbol from #t where ctename = 'left_lower_corner' and symbol='*' 
+			intersect 
+			select xn, yn, symbol from #t where ctename = 'right_big' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'left_5' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'bottom' and symbol='*'
+			)
 			
-			--(select xn, yn, symbol from #t where ctename = 'top_left' and symbol='*'
-		 --    union 
-			-- select xn, yn, symbol from #t where ctename = 'top_right' and symbol='*'
-			--)
-			--except
-			--
 			
+			except -- right lower corner
+
+			(
+			select xn, yn, symbol from #t where ctename = 'right_lower_corner' and symbol='*' 
+			intersect 
+			select xn, yn, symbol from #t where ctename = 'left_big' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'right_5' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'bottom' and symbol='*'
+			)
+
+
 			union  --leaf
 			(select xn, yn, symbol from #t where ctename = 'left_leaf' and symbol='*'
 			 intersect
