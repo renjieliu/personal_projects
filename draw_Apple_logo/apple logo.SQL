@@ -162,18 +162,28 @@ with staging as
 	from #grid grid 
 	left outer join 
 	(
-			(select xn, yn, symbol from #t where ctename = 'left_big' and symbol='*') 
+			(select xn, yn, symbol from #t where ctename = 'left_big' and symbol='*'
 			intersect
-			(select xn, yn, symbol from #t where ctename = 'right_big' and symbol='*')  
-			intersect
+			select xn, yn, symbol from #t where ctename = 'right_big' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'apple_top' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'bottom' and symbol='*'
+			except 
+			select xn, yn, symbol from #t where ctename = 'bite' and symbol='*'
+			)  
 			
-			(select xn, yn, symbol from #t where ctename = 'top_left' and symbol='*'
-		     union 
-			 select xn, yn, symbol from #t where ctename = 'top_right' and symbol='*'
-			)
-			except
-			(select xn, yn, symbol from #t where ctename = 'bite' and symbol='*')  
-			union 
+			
+			--intersect
+			
+			--(select xn, yn, symbol from #t where ctename = 'top_left' and symbol='*'
+		 --    union 
+			-- select xn, yn, symbol from #t where ctename = 'top_right' and symbol='*'
+			--)
+			--except
+			--
+			
+			union  --leaf
 			(select xn, yn, symbol from #t where ctename = 'left_leaf' and symbol='*'
 			 intersect
 			 select xn, yn, symbol from #t where ctename = 'right_leaf' and symbol='*'
@@ -186,13 +196,5 @@ select yn,  STRING_AGG(symbol, ' ') within group(order by xn)
 from staging
 group by yn
 order by 1 
-
-
-
-
-
-
-
-
 
 
