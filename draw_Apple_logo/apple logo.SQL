@@ -2,13 +2,12 @@
 
 drop table if exists #t
 drop table if exists #grid
+drop table if exists #staging
 
 
 declare @start decimal(38,5) = 0
 declare @end decimal(38,5) = 500
 declare @step decimal(38,5) = 5
-
-
 
 ;
 with x as 
@@ -189,10 +188,9 @@ option(maxrecursion 0)
 
 create index idx_t on #t(ctename)
 
-go 
 
 
-
+; 
 with staging as
 (
 	select distinct grid.xn , grid.yn , symbol = isnull(t.symbol, ' ')-- coalesce(t1.symbol, t2.symbol, ' ')
@@ -270,10 +268,33 @@ with staging as
 
 	) t on grid.xn = t.xn and grid.yn = t.yn 
 )
+select * into #staging from staging
 
-select yn,  STRING_AGG(symbol, ' ') within group(order by xn)   
-from staging
+;
+declare @radius decimal(38,5); 
+with points_Range as -- the range of points shown on the canvas
+(select
+ mn_x = min(xn)
+ , mx_x = max(xn)
+ , mn_y = min(yn)
+ , mx_y = max(yn)
+ from #staging
+ where symbol = '*'
+)
+, radius  as 
+(select radius = greatest( sqrt( power( (select mn_x from points_Range)-250, 2) + power( (select mn_y from points_Range)-250, 2) ) ,
+				           sqrt( power( (select mx_x from points_Range)-250, 2) + power( (select mx_y from points_Range)-250, 2) )
+						  )
+)
+select @radius = (select radius from radius)
+; 
+
+
+select yn,  STRING_AGG( case when symbol = '*' then substring('@*@?x#M', cast(1+7*sqrt((power(xn-250, 2)+ power(yn-250, 2)))/@radius as int ), 1) else ' ' end  , ' ') within group(order by xn)   
+from #staging
 group by yn
 order by 1 
 
 
+
+ 
