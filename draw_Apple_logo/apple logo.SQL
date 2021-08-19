@@ -274,7 +274,7 @@ select * into #staging from staging
 declare @radius decimal(38,5) = 0; 
 declare @band decimal(38,5) = 0;
 declare @y0 decimal(38,5);
-declare @format int = 2 -- 1 as band, 2 as gradient,  3 as radius
+declare @format int = 2 -- 1 as band, 2 as gradient, 3 as radius
 
 
 ; with points_Range as -- the range of points shown on the canvas
@@ -297,10 +297,11 @@ select @y0 = (select mn_y from points_Range),  @band = mx_y - mn_y, @radius = (s
 
 
 
---select yn,  
+-- 1 as band, 2 as gradient, 3 as radius
+
 select yn, 
 case when @format = 1 then STRING_AGG( case when symbol = '*' then substring('M+M+M+M', cast(1+7*(yn-@y0)/@band as int), 1) else ' ' end  , ' ') within group(order by xn)   
-	 when @format = 2 then STRING_AGG( case when symbol = '*' then substring('.-=*z@W', cast(1+7*(yn-@y0)/@band as int), 1) else ' ' end  , ' ') within group(order by xn)   
+	 when @format = 2 then STRING_AGG( case when symbol = '*' then substring('.`-=*z@', cast(1+7*(yn-@y0)/@band as int), 1) else ' ' end  , ' ') within group(order by xn)   
 	 when @format = 3 then STRING_AGG( case when symbol = '*' then substring('.*@?x#M', cast(1+7*sqrt((power(xn-250, 2)+ power(yn-250, 2)))/@radius as int ), 1) else ' ' end  , ' ') within group(order by xn) 
 end  --if @band = 0, use the radius for format, else, use banded appple logo
 from #staging
