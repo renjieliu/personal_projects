@@ -1,4 +1,6 @@
---basic
+--Environment: SQL Server 2019
+--Result: Show result as Text
+
 
 drop table if exists #t
 drop table if exists #grid
@@ -307,3 +309,6 @@ end  --if @band = 0, use the radius for format, else, use banded appple logo
 from #staging
 group by yn
 order by 1 
+
+
+
