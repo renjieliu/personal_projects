@@ -5,13 +5,5 @@
 - [ ] Target 3: Enable customization of the parameters 
 - [ ] Target 3: Write a document for the process
 
-
-
-
-
-
-
-
-
-
+![image](https://user-images.githubusercontent.com/19803974/130540790-42ada519-4ce5-4865-a8f3-06febf25b828.png)
 
