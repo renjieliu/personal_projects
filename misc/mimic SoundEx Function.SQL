@@ -1,6 +1,6 @@
 --Rule: https://www.archives.gov/research/census/soundex
 
-declare @rawStr varchar(200) = 'aeiouen'
+declare @rawStr varchar(200) = 'aeiouen' -- this is the test input string
 
 ;with lkp as 
 (select grp = 'BFPV', num = 1
