@@ -1,4 +1,13 @@
 --Rule: https://www.archives.gov/research/census/soundex
+--All the alphabet character should follow the lkp table 
+--If it's AEIOUHWZ, it should not be counted in the final result
+--If the character is same as the previous character, it will be neglected
+--If it's a special character, the calculation should stop
+--If the first character is special, then return '0000'
+--If the first character is alphabet, return upper(firstCharacter) + next 3 valid calculated number 
+--If the final result is less than 3 chacters, pad 0 on the right
+--The result should always be 4 characters.
+
 
 declare @rawStr varchar(200) = 'aeiouen' -- this is the test input string
 
