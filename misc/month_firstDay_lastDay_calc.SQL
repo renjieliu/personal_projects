@@ -18,3 +18,5 @@ firstDayof_monthDiff_Month = dateadd(day, -DATEPART(day, dateadd(month, @monthDi
 -- , firstDayofNxtMonth = dateadd(day, -datepart(day, dateadd(month, 1, @date))+1, dateadd(month, 1, @date))
 -- , lastdayofNxtMonth = dateadd(day, -datepart(day, dateadd(month, 2, @date)), dateadd(month, 2, @date))
 
+
+
