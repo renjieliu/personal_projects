@@ -5,6 +5,10 @@ Assuming to copy Termux environment from device A to device B
 - `tar -zcvf ./termux-backup_20211031.tar.gz home usr`
 - `mv ./termux-backup_20211031.tar.gz /data/data/com.termux/files/home/myfiles_microsd/`
 
+or combined togther
+
+- `cd /data/data/com.termux/files && tar -zcvf ./termux-backup_20220107.tar.gz home usr && mv ./termux-backup_20220107.tar.gz /data/data/com.termux/files/home/myfiles_microsd/`
+
 ### Restore the termux on device B
 - Copy the backup file from step 1 to device B
 - Install the termux app on the android device
