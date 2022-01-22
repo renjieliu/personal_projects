@@ -7,7 +7,7 @@ Assuming to copy Termux environment from device A to device B
 
 or combined togther
 
-- `cd /data/data/com.termux/files && tar -zcvf ./termux-backup_20220107.tar.gz home usr && cp ./termux-backup_20220107.tar.gz /data/data/com.termux/files/home/myfiles_microsd/ && rm ./termux-backup_20220107.tar.gz`
+- `fileName="termux-backup_20220107.tar.gz"; cd /data/data/com.termux/files && tar -zcvf ${fileName} home usr && cp ./${fileName} /data/data/com.termux/files/home/myfiles_microsd/ && rm ./${fileName}`
 
 ### Restore the termux on device B
 - Copy the backup file from step 1 to device B
