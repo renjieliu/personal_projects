@@ -150,7 +150,20 @@ order by 3 desc
 
 
 
-select count(*) from megamillion_all_combination
+-- select count(*) from megamillion_all_combination
+
+-- begin
+-- select top 100 * from megamillion_all_combination
+-- order by NEWID();
+-- end 
+
+-- create index idx_n1 on megamillion_all_combination(n1)
+
+-- ;
+
+-- select top 1 * from megamillion_all_combination tablesample (0.1 percent)
+
+-- select top 100 n,  * from megamillion_all_combination tablesample SYSTEM (0.1 percent);
 
 
 
