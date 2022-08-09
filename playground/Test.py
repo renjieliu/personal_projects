@@ -9,6 +9,3 @@ def combo(input, k):
 
 print(combo('abcde',3))
 
-
-
-
