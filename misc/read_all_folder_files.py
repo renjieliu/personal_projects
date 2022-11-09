@@ -8,18 +8,21 @@ def readFileContents(output, path):
 			realPath = path + '/' + a
 			if os.path.isdir(realPath):
 				readFileContents(output, realPath)
-			else:
+			elif realPath[-4:].upper() == '.SQL': # only take the SQL file
 				with open(realPath, 'r') as f:
+					output[0] += ('-----' + realPath + '\r\n')
 					for _ in f.readlines():
 						output[0] += _
+				output[0] += '\r\n GO \r\n\r\n\r\n' # adding go to the end of each file
+				
 
 
 
-paths = [r"xxx"]
+paths = [r"."]
 output = [""]
 
 
-combinedOutput = r"xxxxx"
+combinedOutput = paths[0] + r"./combined.SQL"
 
 if os.path.exists(combinedOutput):
 	os.remove(combinedOutput)
@@ -29,4 +32,6 @@ for p in paths:
 
 with open(combinedOutput, 'w') as f:
 	f.write(output[0])
+
+
 
