@@ -25,7 +25,7 @@ inner join ( select rn = ROW_NUMBER() over (order by newid()) ,  * from a where 
 inner join ( select rn = ROW_NUMBER() over (order by newid()) ,  * from a where n in (7, 8) ) th on we.rn = th.rn
 inner  join ( select rn = ROW_NUMBER() over (order by newid()) ,  * from a where n in (9, 10) ) fr on th.rn = fr.rn
 
-union all --
+union all 
  
 select groups = '2', Monday = mo.item, Tuesday = tu.item, Wednesday = we.item, Thursday = th.item, Friday = fr.item
 from 
