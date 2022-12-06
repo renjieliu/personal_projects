@@ -1,3 +1,6 @@
+-- This script is to find the people followed the most by people you follow, but not followed by you.
+-- If tie , get the smallest user id.
+
 drop table if exists follow
 
 create table follow(id int, f int)
@@ -26,7 +29,7 @@ select * from (values (1,2),
 
 ; 
 
-with base as (
+with base as ( -- find all the people followed by people you follow
 select 
 er_id = er.id
 , ee_f = ee.f
@@ -35,13 +38,13 @@ from
 follow er left outer join follow ee on er.f = ee.id
 group by er.id, ee.f
 )
-, new_follower as (
+, new_follower as ( -- from base, minus the people you follow and yourself
 select er_id, ee_f from base  
 except 
 select id, f from follow
 except 
 select id, id from follow
-) , rpt as (
+) , rpt as ( -- find the one followed by the most, take the smallest id if tie
 select
 new_follower.*
 , base.cnt 
@@ -53,8 +56,6 @@ select
 er_id
 , ee_f
 from rpt where rn = 1 
-
-
 ;
 
 
