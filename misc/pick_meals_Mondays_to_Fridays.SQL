@@ -7,6 +7,9 @@
 ; with a as
 (
 select top 10 n = ROW_NUMBER() over (order by CHECKSUM(NEWID()) ), * from meal where category = N'荤菜'
+union all
+select * from a 
+where NEWID() is null 
 )
 , b as 
 (
