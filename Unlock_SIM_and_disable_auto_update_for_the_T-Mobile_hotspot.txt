@@ -1,31 +1,35 @@
-connect to the hotspot, go to 192.168.0.1
-password: admin, changed to p!!
-and get the imei number for the hotspot
+##### Below is to unlock SIM  #####
 
-head over to: http://emn178.github.io/online-tools/sha1.html
+- connect to the hotspot, open browser, and go to 192.168.0.1, password: admin, changed to p!!
+- get the imei number for the hotspot
+- change network or use another machine, to head over to: http://emn178.github.io/online-tools/sha1.html
+- copy '000000000000000simlock' and paste into the first text box
+- replace all 0's with your imei number
+- the first 8 characters on the 2nd text box is your unlock code.
+- go to 192.168.0.1 password : admin, changed to p!!
+- go to Settings > Mobile Network > SIM > Carrier Unlock, enter the unlock code
+- reboot the router, log onto the portal again, the Carrier Unlock Status should show as "Unlocked" in the "Settings > Mobile Network > SIM > Carrier Unlock"
 
-1. copy 000000000000000simlock
-and paste into the first text box
-2. replace all 0's with your imei number
-3. the first 8 characters on the 2nd text box is your unlock code.
 
-4. go to 192.168.0.1
-password : admin, changed to p!!
-go to unlock, enter the unlock code and reboot the router
+##### Below is to enable SSH #####
 
-After reboot, enable SSH by below
+- After reboot, enable SSH by below
 download the version 891 firmware from https://drive.google.com/file/d/1qqRggdzfWgk_FQ9juQsRWvTOJaHeBEZH/view?usp=sharing
 
-connect to the hotspot
+ - connect to the hotspot
 upload the 891 firmware with below webportal, password:frk@r717
 
 http://mobile.hotspot/webpst/update_fw.html
 
-after uploading, the hostpot will be rebooted automatically
+ - after uploading, the hostpot will be rebooted automatically
 
 connect to the hotspot again after rebooting, 
 go to http://mobile.hotspot/webpst/service_setting.html and enable ssh
 and reboot the hotspot, and connect it again.
+
+
+##### Below is to disable auto update #####
+
 
 use ssh client to connect with below command
 ssh -l root mobile.hotspot
