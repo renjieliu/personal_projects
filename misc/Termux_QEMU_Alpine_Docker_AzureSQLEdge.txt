@@ -1,0 +1,104 @@
+pkg install unstable-repo
+pkg install qemu-system-x64_64 qemu-utils
+
+pkg install curl
+curl http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-virt-3.10.1-x86_64.iso -o alpine.iso
+
+qemu-img create -f qcow2 alpine.img 5g
+
+qemu-system-x86_64 -hda alpine.img -cdrom alpine.iso -boot d -m 512 -nographic
+
+
+vi /etc/network/interfaces 
+
+add below - 
+
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet dhcp
+
+
+/etc/init.d/networking restart
+
+
+vi /etc/resolv.conf 
+
+add below - 
+
+nameserver 8.8.8.8
+
+
+setup-apkrepos
+
+
+-- Below is to install Alpine
+setup-alpine
+
+
+choose sda for the hard disk
+choose sys for the purpose 
+
+halt
+
+Ctrl + a, x
+
+qemu-system-x86_64 -hda alpine.img -boot c -m 512 -nographic
+
+vi /etc/apk/repositories
+
+uncomment the community repositories
+
+
+apk update
+apk add docker
+
+
+service docker start
+dockerd &
+
+
+update-rc enable docker
+
+
+docker info
+docker run alpine echo hello
+
+
+
+
+qemu-system-x86_64 -hda alpine.img -boot c -m 1536 -nographic -nic user,hostfwd=tcp::1434-:1434
+
+
+
+
+docker pull mcr.microsoft.com/azure-sql-edge
+
+
+
+
+mkdir -p /root/Share/azsql/data
+mkdir -p /root/Share/azsql/log
+mkdir -p /root/Share/azsql/secrets
+
+chmod -R 777 /root/Share/azsql/data
+chmod -R 777 /root/Share/azsql/log
+chmod -R 777 /root/Share/azsql/secrets
+
+docker run --restart always -e 'ACCEPT_EULA=Y' -e 'ACCEPT_EULA_ML=Y' -e 'MSSQL_SA_PASSWORD=password1!' -p 1434:1433 -v /root/Share/azsql/data:/var/opt/mssql/data -v /root/Share/azsql/log:/var/opt/mssql/log -v /root/Share/azsql/secrets:/var/opt/mssql/secrets -d mcr.microsoft.com/azure-sql-edge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
