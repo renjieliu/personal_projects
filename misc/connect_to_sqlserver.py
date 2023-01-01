@@ -1,6 +1,6 @@
 import pyodbc 
 server = r'renjie.rocks' 
-database = 'Test' 
+database = 'name_of_db' 
 username = 'sa' 
 password = 'xxxxxxxx' 
 connection = pyodbc.connect(r'DRIVER={ODBC Driver 11 for SQL Server};'
