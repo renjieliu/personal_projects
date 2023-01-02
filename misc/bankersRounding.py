@@ -1,4 +1,4 @@
-# "round to nearest, ties to even"
+# "round to nearest, if ties, round to even"
 
 
 print(round(12.5)) # 12
