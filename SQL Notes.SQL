@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------------------------------------
 
-CREATE DATABASE db_rpi 
+CREATE DATABASE db_rpi
 ON (Filename = '\\192.168.1.225\sandisk\db_rpi.mdf'),
    (Filename = '\\192.168.1.225\sandisk\db_rpi_log.ldf')
 FOR ATTACH;
