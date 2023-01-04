@@ -1,3 +1,6 @@
+# below commands need to be executed within Termux
+
+
 pkg install unstable-repo
 pkg install qemu-system-x64_64 qemu-utils
 
