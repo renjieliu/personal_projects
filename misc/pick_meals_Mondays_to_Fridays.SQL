@@ -4,7 +4,6 @@
 
 --delete from meal where item = N'韭菜蛋饼'
 
-
 drop table if exists #a
 drop table if exists #b
 drop table if exists #c
@@ -13,9 +12,9 @@ drop table if exists #d
 
 select top 10 n = ROW_NUMBER() over (order by CHECKSUM(NEWID()) ), * into #a from meal where category = N'荤菜'
 
-select top 10 n = ROW_NUMBER() over (order by (select NULL) ), * into #b from meal where category = N'素菜'
+select top 10 n = ROW_NUMBER() over (order by CHECKSUM(NEWID())), * into #b from meal where category = N'素菜'
  
-select top 5 n = ROW_NUMBER() over (order by (select NULL) ), * into #c from meal where category = N'汤'
+select top 5 n = ROW_NUMBER() over (order by CHECKSUM(NEWID())), * into #c from meal where category = N'汤'
 
 
 select groups = '1', Monday = mo.item, Tuesday = tu.item, Wednesday = we.item, Thursday = th.item, Friday = fr.item
