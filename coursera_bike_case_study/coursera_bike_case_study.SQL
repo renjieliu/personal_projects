@@ -5,9 +5,11 @@
 
 
 --3885182 
-select count(1) from bike_coursera 
+select count(1) from bike_coursera ;
 
-select top 100 * from bike_coursera 
+
+
+select top 100 * from bike_coursera
 order by 1 
 
 select distinct start_station_name , round(start_lat,3), round(start_lng,3) from bike_coursera 
