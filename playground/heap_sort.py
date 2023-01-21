@@ -22,6 +22,7 @@ def build_heap(arr):
 		heapify(arr, s) 
 		s-=1
 
+
 def heap_sort(arr):
 	output = []
 	build_heap(arr)
