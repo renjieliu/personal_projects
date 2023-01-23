@@ -1,5 +1,11 @@
 ﻿--create  table meal (item nvarchar(200), category nvarchar(200))
 
+/* Insert a new dish into the table. */
+
+--select * from meal;
+--insert into meal select N'海派色拉', N'素菜';
+
+
 --go
 
 --delete from meal where item = N'韭菜蛋饼'
