@@ -5,7 +5,6 @@
 --select * from meal;
 --insert into meal select N'海派色拉', N'素菜';
 
-
 --go
 
 --delete from meal where item = N'韭菜蛋饼'
@@ -14,7 +13,6 @@ drop table if exists #a;
 drop table if exists #b;
 drop table if exists #c;
 drop table if exists #d;
-
 
 
 select top 10 n = ROW_NUMBER() over (order by CHECKSUM(NEWID()) ), * into #a from meal where category = N'荤菜'
