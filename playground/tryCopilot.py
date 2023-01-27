@@ -18,4 +18,15 @@ def fib(n):
         a = b
         b = c
     return b
+    
 
+# create a function to print prime numbers smaller than 10000
+def prime():
+    for i in range(2, 10000):
+        for j in range(2, i):
+            if i % j == 0:
+                break
+        else:
+            print(i)
+
+prime()
