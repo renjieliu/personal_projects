@@ -17,7 +17,7 @@ select top 10 n = ROW_NUMBER() over (order by CHECKSUM(NEWID())), * into #b from
  
 select top 5 n = ROW_NUMBER() over (order by CHECKSUM(NEWID())), * into #c from meal where category = N'汤'
 
-
+ 
 select groups = '1', Monday = mo.item, Tuesday = tu.item, Wednesday = we.item, Thursday = th.item, Friday = fr.item
 into #d
 from 
