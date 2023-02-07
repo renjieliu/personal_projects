@@ -5,6 +5,8 @@
 --select * from meal;
 --insert into meal select N'海派色拉', N'素菜';
 
+-- insert into meal select N'莴笋炒木耳', N'素菜';
+
 --go
 
 --delete from meal where item = N'韭菜蛋饼'
