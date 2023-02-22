@@ -13,11 +13,11 @@ warnings.filterwarnings('ignore') # do not show Python package internal warnings
 
 
 server = 'server, port'
-db = 'db_name'
-username = 'username'
-password = 'xxxxxx'
-scriptsFolder = r'complete_path_to_folder'
-outputExcel = r'complete_path_to_output_file'
+db = 'dbName'
+username = 'usr'
+password = 'pwd'
+scriptsFolder = r'path_to_sql_folder'
+outputExcel = r'path_to_output_excel_file'
 
 #cnxn = pyodbc.connect(f'Driver=SQL Server;Server={server};Database={db};Trusted_Connection=yes;')
 cnxn = pyodbc.connect(f'Driver=SQL Server;Server={server};Database={db}; UID={username};PWD={password}')
@@ -25,7 +25,7 @@ cnxn = pyodbc.connect(f'Driver=SQL Server;Server={server};Database={db}; UID={us
 allFiles = os.listdir(scriptsFolder)
 #print(arr)
 sheet_cnt = 0
-writer = pd.ExcelWriter(outputExcel)
+writer = pd.ExcelWriter(outputExcel, mode='a', if_sheet_exists = 'replace')
 
 for file in allFiles:
     realPath = scriptsFolder + '/' + file
@@ -43,7 +43,10 @@ for file in allFiles:
         while cursor.nextset(): #only get the last result sets from the query
             df = pd.DataFrame.from_records(cursor.fetchall(),
                                columns = [desc[0] for desc in cursor.description])
-        df.to_excel(writer, sheet_name=f'Sheet_{sheet_cnt}', index=False)
+        df.to_excel(writer, sheet_name=f'Sheet_{sheet_cnt}', index=False,)
+        
+        # ws = writer.sheets[f'Sheet_{sheet_cnt}']
+        # ws.hide()
 
 writer.save()
 
