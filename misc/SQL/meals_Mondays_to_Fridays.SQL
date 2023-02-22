@@ -6,6 +6,7 @@
 --insert into meal select N'海派色拉', N'素菜';
 
 -- insert into meal select N'莴笋炒木耳', N'素菜';
+-- insert into meal select N'沙茶笋鸡肉', N'荤菜';
 
 --go
 
@@ -72,3 +73,4 @@ drop table if exists #a
 drop table if exists #b
 drop table if exists #c
 drop table if exists #d
+
