@@ -25,6 +25,7 @@ warnings.filterwarnings('ignore') # do not show Python package internal warnings
 #cnxn = pyodbc.connect(f'Driver=SQL Server;Server={server};Database={db};Trusted_Connection=yes;')
 connection = pymssql.connect(host=server, database=db, user=username, password=pwd)
 
+
 allFiles = os.listdir(scriptsFolder)
 #print(arr)
 sheet_cnt = 0
