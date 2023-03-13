@@ -45,8 +45,8 @@ replace the myfiles_microsd soft link to point to the folder on MicroSD card
 Restart the termux on device B and check if everything's working as device A
 
 
-### Oneliner to combine the restore process ###
-
+### Oneliner to combine the restore process on Termux 118+ ###
+`
 termux-setup-storage &&\ 
  cd ~ &&\
  cp -r storage .. &&\
@@ -57,7 +57,7 @@ termux-setup-storage &&\
  rm myfiles_microsd &&\
  mkdir /data/data/com.termux/files/storage/external-1/MyFilesforTermuxOnMicroSD &&\
  ln -s /data/data/com.termux/files/storage/external-1/MyFilesforTermuxOnMicroSD myfiles_microsd
- 
+`
 
 
 
