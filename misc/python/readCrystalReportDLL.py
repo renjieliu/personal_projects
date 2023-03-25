@@ -1,14 +1,15 @@
 import ctypes
 
+# Load the DLLs
+
+dll_path = r"C:\Users\liurenjie\Desktop\Stafflist\CrystalReportBurst\CrystalDecisions.CrystalReports.Engine.dll"
+
 # Load the DLL
-my_dll = ctypes.cdll.LoadLibrary('path/to/my_dll.dll')
+my_dll = ctypes.WinDLL(dll_path)
 
-# Define the argument and return types for the function
-my_function = my_dll.my_function
-my_function.argtypes = [ctypes.c_int, ctypes.c_int]
-my_function.restype = ctypes.c_int
-
-# Call the function
-result = my_function(1, 2)
-
+# Iterate through the exported functions
+for func in my_dll.__dict__:
+    print(func)
+    if isinstance(my_dll.__dict__[func], ctypes._CFuncPtr):
+        print(func)
 
