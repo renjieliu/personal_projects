@@ -18,7 +18,7 @@ with requests.get(sourceURL) as r:
     targetFileNameExtension =  r.headers['content-disposition'].split('.')[-1]
     #print(r.headers)
     targetFileName = targetFileNamePre + targetFileNameDateTime + '.' + targetFileNameExtension
-    targetFullPath = targetFolder + "\\" + targetFileName
+    targetFullPath = targetFolder + "/" + targetFileName
 
     with open(targetFullPath, 'wb') as f: #write the file to the target location
         f.write(r.content)
