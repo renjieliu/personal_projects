@@ -36,6 +36,11 @@ Today = cast(GETDATE() as date)
 
 
 
+go
+
+
+
+
 
 
 select '*'
