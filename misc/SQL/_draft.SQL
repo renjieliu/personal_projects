@@ -51,3 +51,19 @@ go 2
  
 
 
+
+
+
+print '*'
+waitfor delay '00:00:00.100'
+print '@'
+waitfor delay '00:00:00.100'
+go 
+ 
+print '*'
+waitfor delay '00:00:00.100'
+print '@'
+waitfor delay '00:00:00.100'
+go 
+
+
