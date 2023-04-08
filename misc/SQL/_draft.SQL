@@ -20,8 +20,8 @@ go
 
 -- Cathay Pacific available Seat
 
-declare @currPE date = '2023-05-10' -- first available Premium Economy
-declare @currE date = '2023-05-14' -- first available Economy 
+declare @currPE date = '2023-05-23' -- first available Premium Economy
+declare @currE date = '2023-05-15' -- first available Economy 
 declare @bookDate date = '2023-05-02'
 
 select 
@@ -35,5 +35,14 @@ Today = cast(GETDATE() as date)
 , projected_E = dateadd(day, DATEDIFF(day, GETDATE(), @currE), @bookDate)
 
 
+
+
+
+select '*'
+waitfor delay '00:00:00.500'
+select '@'
+waitfor delay '00:00:00.100'
+go 2
+ 
 
 
