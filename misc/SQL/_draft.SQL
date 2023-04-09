@@ -3,8 +3,9 @@ select count(*) from webTracker
 
 select top 100 * from webTracker; 
 
-select total_1 = count(*)  from stock;
+select total_1 = count(*)  from stock_before_revise;
 
+select * into stock_before_revise from stock_20230407 
 
 
 select max([Date]) from market 
@@ -47,7 +48,7 @@ select '*'
 waitfor delay '00:00:00.500'
 select '@'
 waitfor delay '00:00:00.100'
-go 2
+go
  
 
 
