@@ -37,6 +37,7 @@ def f(meter, radius, numbers, locations):
 #         res = f(meter, radius, numbers, locations)
 #         print(f"Case #{i}: {res}")
 
+
 cases =  int(input()) #total case counts
 for i in range(1, cases+1):
     base = input().split(' ')
