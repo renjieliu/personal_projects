@@ -5,7 +5,8 @@ select top 100 * from webTracker;
 
 select total_1 = count(*)  from stock_before_revise;
 
-select * into stock_before_revise from stock_20230407 
+
+--select * into stock_before_revise from stock_20230407 
 
 
 select max([Date]) from market 
