@@ -5,7 +5,8 @@ select top 100 * from webTracker;
 
 select total_1 = count(*)  from stock_before_revise;
 
-select * into stock_before_revise from stock_20230407 
+
+--select * into stock_before_revise from stock_20230407 
 
 
 select max([Date]) from market 
@@ -21,9 +22,9 @@ go
 
 -- Cathay Pacific available Seat
 
-declare @currPE date = '2023-05-23' -- first available Premium Economy
-declare @currE date = '2023-05-15' -- first available Economy 
-declare @bookDate date = '2023-05-02'
+declare @currPE date = '2023-05-25' -- first available Premium Economy
+declare @currE date = '2023-06-02' -- first available Economy 
+declare @bookDate date = '2023-07-10'
 
 select 
 Today = cast(GETDATE() as date)
