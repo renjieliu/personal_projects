@@ -68,3 +68,8 @@ waitfor delay '00:00:00.100'
 go 
 
 
+select datediff(day, '2023-04-30', '2023-10-31')
+
+select dateadd(day, 180, '2023-04-30')
+
+
