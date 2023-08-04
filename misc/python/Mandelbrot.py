@@ -1,3 +1,5 @@
+import math
+
 def mandelbrot(z , c , iteration_cnt = 40):
     if abs(z) > 1000:
         return float("nan")
@@ -22,3 +24,5 @@ for a in arr:
     res.append("".join(a))
 
 print("\n".join(res))
+
+
