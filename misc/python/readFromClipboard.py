@@ -22,3 +22,26 @@ finally:
     win32clipboard.CloseClipboard()
 
 
+#######################################
+# below code is to get the file paths#
+#######################################
+
+
+# import win32clipboard
+
+# # Open the clipboard
+# win32clipboard.OpenClipboard()
+
+# try:
+#     # Try to get the data in the CF_HDROP format
+#     # The CF_HDROP format is identified by the number 15
+#     file_paths = win32clipboard.GetClipboardData(15)
+# finally:
+#     # Close the clipboard
+#     win32clipboard.CloseClipboard()
+
+# # Print the file paths
+# for path in file_paths:
+#     print(path)
+
+
