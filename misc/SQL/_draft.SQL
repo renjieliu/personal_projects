@@ -73,8 +73,12 @@ select datediff(day, '2023-04-30', '2023-10-31')
 
 select dateadd(day, 180, '2023-04-30')
 
-
 select dateadd(day, 180, GETDATE())
+
+
+select back_to_us = DATEDIFF(day, '2023-06-18', GETDATE()), to_be = DATEDIFF(day, GETDATE(), '2023-10-05')
+
+select dateadd(day, datediff(day, '2023-06-18', GETDATE()), GETDATE())
 
 
 
