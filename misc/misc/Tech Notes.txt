@@ -92,11 +92,23 @@ iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o wlan0 -j SNAT --to 192.168.1.20
 
 
 
+#######################################################
+##### Extract all the ed2k links from the webpage ####
+#######################################################
+var links = [];
+var anchors = document.querySelectorAll('a');
+
+anchors.forEach(function(anchor) {
+  var href = anchor.href;
+  if (href.startsWith('ed2k')) {
+    links.push(href);
+  }
+});
+
+console.log('Found ed2k links:', links);
 
 
-
-
-
+#######################################################
 
 
 
