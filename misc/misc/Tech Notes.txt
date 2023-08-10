@@ -116,7 +116,9 @@ var anchors = document.querySelectorAll('a');
 
 anchors.forEach(function(anchor) {
   var href = anchor.href;
-  if (href.startsWith('ed2k')) {
+  // if (href.startsWith('ed2k')) {
+  // if (href.endsWith('ed2k')) {
+  if (href.includes('ed2k')) {
     href = href + "\r\n";
     links.push(href);
   }
