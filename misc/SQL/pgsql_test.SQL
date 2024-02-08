@@ -29,3 +29,42 @@ $$ LANGUAGE plpython3u
 select fib(1000) ; 
 
 
+
+CREATE EXTENSION IF NOT EXISTS tds_fdw;
+
+ 
+create SERVER sqlserver_renjie_rocks
+FOREIGN DATA WRAPPER tds_fdw
+OPTIONS (servername 'xxxxxxxx', port '1433', database 'Test');
+
+
+ALTER SERVER sqlserver_renjie_rocks
+OPTIONS (SET servername 'xxx', SET port '1434') ;
+
+CREATE USER MAPPING FOR boroger
+SERVER sqlserver_renjie_rocks
+OPTIONS (username 'xxxxx', password 'xxxx');
+
+
+
+drop FOREIGN TABLE if exists sqlserver_stocks; 
+
+
+CREATE FOREIGN TABLE sqlserver_stocks (
+	tick text,
+	stock_name text,
+	AveragePrice text,
+	Qty text
+	-- trade_Type text,
+	-- Side text,
+	-- Fees float,
+	-- trade_State text,
+	-- trade_Date text,
+	-- trade_Time text  ,
+	-- insert_time text 
+) SERVER sqlserver_renjie_rocks 
+OPTIONS (query 'SELECT * from table', row_estimate_method 'showplan_all');
+
+
+
+select * from sqlserver_stocks
