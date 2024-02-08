@@ -19,6 +19,14 @@ select 'A' + char(13) + 'B'
 go
 
 
+<<<<<<< HEAD
+=======
+select * from robinhood_stock_orders
+where tick = 'JD' and AveragePrice > 28 
+order by cast(trade_Date as date) desc 
+
+go 
+>>>>>>> 81a1d8b8492a745196c98bb67dc16e8593d6200a
 
 -- Cathay Pacific available Seat
 
