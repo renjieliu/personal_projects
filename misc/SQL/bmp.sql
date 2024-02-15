@@ -10,8 +10,7 @@ drop table if exists #test_img;
 -- insert into #test_img (img) 
 SELECT img = BulkColumn 
 into #test_img
-FROM Openrowset( Bulk '/var/opt/mssql/data/myfiles/google.bmp', Single_Blob) as img
-
+FROM Openrowset( Bulk '/var/opt/mssql/data/myfiles/amazon.bmp', Single_Blob) as img
 
 
 
@@ -127,13 +126,6 @@ select * into test_img_staging from #staging
 --order by 1 
 
 
-
-
---commit
-
---select * from test_img_staging
-
-
 drop table if exists #pic 
 
 select 
@@ -163,11 +155,11 @@ from #pic
 
 set nocount off; 
 
-declare @palette varchar(1000) = ' .-*~=%@'
+declare @palette varchar(1000) = '@%=~*-. '
 select 
 line_n
 , string_agg( SUBSTRING( @palette
-						, 1+cast( (255-pixel_gray) / (255.0/ (len(@palette)-1 ) )   as decimal(3,0))
+						, 1+cast( pixel_gray / (255.0 / (len(@palette) ) )   as decimal(5,0))
 						, 1)
 			 , '')  
    within group (order by pixel_n)
