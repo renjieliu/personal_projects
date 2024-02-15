@@ -1,10 +1,10 @@
-select len(img) from test_img
+--select len(img) from test_img
 
 
-select img from test_img
+--select img from test_img
 
 
-go 
+--go 
 
 
 drop table if exists #t 
@@ -25,11 +25,69 @@ from test_img
 
 
 
+declare @img varchar(max) = (select top 1 img = convert(varchar(max), img, 2) from test_img)
+
+ 
+
+drop table if exists #size
+
+select width =  cast(convert(varbinary, '0x' 
+										+ SUBSTRING(@img, 43, 2)
+										+ SUBSTRING(@img, 41, 2)
+										+ SUBSTRING(@img, 39, 2) 
+										+ SUBSTRING(@img, 37, 2) 
+							, 1) 
+					 as int)
+, height = cast(convert(varbinary, '0x' 
+										+ SUBSTRING(@img, 51, 2)
+										+ SUBSTRING(@img, 49, 2)
+										+ SUBSTRING(@img, 47, 2) 
+										+ SUBSTRING(@img, 45, 2) 
+							, 1) 
+					 as int)
+
+into #size 
+
+
+
+declare @padding int = (select 3*width from #size) % 4 
+
+
 drop table if exists #cte
 
-create table #cte (id int, ch varchar(10))
+create table #cte (id int, ch varchar(max))
 
-declare @img varchar(max) = (select top 1 img = convert(varchar(max), img, 2) from test_img)
+declare @ptr int = 110 
+declare @id int = 1
+declare @width_bytes int = (select (select 3*width from #size) + @padding*2)
+
+while @ptr < len(@img)
+begin 
+
+	insert into #cte 
+	select @id, SUBSTRING(@img, @ptr, @width_bytes)
+
+	set @id = @id + 1 
+	set @ptr = @ptr + @width_bytes
+	-- if @id % 10000 = 0
+	--begin
+	--	select cast(100.0 * @ptr / len(@img) as decimal(38,2))
+	--end 
+
+end
+
+select * from #cte
+ 
+go
+
+
+
+
+
+
+
+
+
 declare @ptr int = 1 
 declare @id int = 1
 
@@ -100,29 +158,74 @@ as int
 )
 into #size 
 
-
+delete from test_img_staging  where id < 55 -- delete the BMP file header. BMP header takes 54 bytes
 --select * from #size
+
+update test_img_staging set id = id-54
+
+select * from test_img_staging
 
 drop table if exists #pic 
 
 select 
-line = (id-54)/(select width from #size)
-, * 
+--pixel_n = ceiling(id/3.0)
+--, 
+id
+, ch
+, pixel_rgb = cast(convert(varbinary, '0x' + ch, 1 ) as int)
 into #pic 
 from test_img_staging 
-where id >=55
+order by 1 
 
 
+select * from #pic 
+order by id 
+
+
+; with t as (
+select 
+*
+--, line_n = ceiling(pixel_n / (select width from #size))
+-- , pixel_gray = AVG(pixel_rgb) over(partition by pixel_n)
+, pad_or_not = case when pixel_rgb = 0 -- current is 0, previous is end of pixel. Padding is to make line as 4x bytes
+							and
+						(
+						floor ( (id-1.0)/ (select width from #size)) =  (id-1)/(select width from #size) 
+							or 
+						floor ( (id-2.0)/ (select width from #size) )  = (id-2) / (select width from #size) 
+							or 
+						floor ( (id-3.0)/ (select width from #size) )  = (id-3) / (select width from #size) 
+						)
+						
+					then 1 
+					else 0
+			    end 
+from #pic 
+) 
+select
+id 
+, ch
+, pixel_rgb
+from t
+where pad_or_not = 1 
+ 
+select 
+pixel_n = ceiling(pixel_id/3.0)
+, pixel_id
+, ch
+, pixel_rgb
+from b 
 
 
 select 
-line, string_agg( case when ch = 'FF' then ' ' 
-					   when ch = '00' then ''
+line_n
+, string_agg( case when pixel_gray = 255 then ' ' 
+					   when pixel_gray = 0 then ''
 					   else '*' 
-			      end, ''  ) within group (order by id)
-from #pic 
+			      end, ''  ) within group (order by pixel_n)
+from t 
 --where (id - 54)%3 = 0 
-group by line
+group by line_n
 order by 1 desc
 
 
