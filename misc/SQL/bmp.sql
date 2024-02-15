@@ -10,7 +10,7 @@ drop table if exists #test_img;
 -- insert into #test_img (img) 
 SELECT img = BulkColumn 
 into #test_img
-FROM Openrowset( Bulk '/var/opt/mssql/data/myfiles/starbucks.bmp', Single_Blob) as img
+FROM Openrowset( Bulk '/var/opt/mssql/data/myfiles/google.bmp', Single_Blob) as img
 
 
 
@@ -163,11 +163,15 @@ from #pic
 
 set nocount off; 
 
+declare @palette varchar(1000) = ' .-*~=%@'
 select 
 line_n
-, string_agg( case when pixel_gray >= 200 then ' ' 
-				   else '*' 
-			      end, ''  ) within group (order by pixel_n)
+, string_agg( SUBSTRING( @palette
+						, 1+cast( (255-pixel_gray) / (255.0/ (len(@palette)-1 ) )   as decimal(3,0))
+						, 1)
+			 , '')  
+   within group (order by pixel_n)
+
 from #final 
 --where (id - 54)%3 = 0 
 group by line_n
