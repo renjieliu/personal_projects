@@ -10,7 +10,7 @@ drop table if exists #test_img;
 -- insert into #test_img (img) 
 SELECT img = BulkColumn 
 into #test_img
-FROM Openrowset( Bulk '/var/opt/mssql/data/myfiles/amazon.bmp', Single_Blob) as img
+FROM Openrowset( Bulk '/var/opt/mssql/data/myfiles/kobe.bmp', Single_Blob) as img
 
 
 
@@ -156,6 +156,7 @@ from #pic
 set nocount off; 
 
 declare @palette varchar(1000) = '@%=~*-. '
+--declare @palette varchar(1000) = '* '
 select 
 line_n
 , string_agg( SUBSTRING( @palette
