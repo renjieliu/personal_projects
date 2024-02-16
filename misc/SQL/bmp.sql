@@ -98,12 +98,16 @@ declare @id int = 1
 
 
 drop table if exists #staging 
+
 create table #staging (id int, ch varchar(max))
+
+
+--declare @table table (id int, ch varchar(max))
+
 
 while @total_ptr < len(@total)
 begin 
-
-	insert into #staging 
+	insert into #staging -- @table 
 	select @id, SUBSTRING(@total, @total_ptr, 2)
 
 	set @id = @id + 1 
@@ -112,9 +116,10 @@ begin
 	--begin
 	--select cast(100.0 * @ptr / len(@total) as decimal(38,2))
 	--end 
-
 end
 
+--insert into #staging
+--select * from @table 
 
 drop table if exists test_img_staging
 
@@ -152,6 +157,7 @@ select
 into #final
 from #pic 
 
+-- select * from #final 
 
 set nocount off; 
 
@@ -164,7 +170,6 @@ line_n
 						, 1)
 			 , '')  
    within group (order by pixel_n)
-
 from #final 
 --where (id - 54)%3 = 0 
 group by line_n
