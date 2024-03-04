@@ -154,4 +154,38 @@ and b3.id!=b4.id
 and b1.id = 4 
 )
 select  * from one, two, three, four
- 
+
+
+
+
+; 
+with one as (
+select 
+rn = ROW_NUMBER() over(order by b1.id, b2.id, b3.id, b4.id)
+, b1 = b1.id
+, b2 = b2.id
+, b3 = b3.id
+, b4 = b4.id 
+from #base b1 , #base b2 , #base b3 , #base b4 
+where b1.id != b2.id 
+and b1.id!= b3.id 
+and b1.id!=b4.id
+and b2.id!= b3.id
+and b2.id!=b4.id
+and b3.id!=b4.id 
+)
+, cte as (
+select rn, b1, b2, b3, b4, gn = rn, lvl = 1 from one 
+union all 
+select one.rn, one.b1, one.b2, one.b3, one.b4, cte.gn, cte.lvl + 1   from cte inner join one
+on  one.rn > cte.rn 
+and one.b1 != cte.b1
+and one.b2 != cte.b2 
+and one.b3 != cte.b3
+and one.b4 != cte.b4
+)
+
+select sn =  ROW_NUMBER() over(partition by gn, lvl  order by lvl),   *  from cte
+where gn = 1
+order by 1, gn ,lvl
+
