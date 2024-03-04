@@ -19,14 +19,11 @@ select 'A' + char(13) + 'B'
 go
 
 
-<<<<<<< HEAD
-=======
 select * from robinhood_stock_orders
 where tick = 'JD' and AveragePrice > 28 
 order by cast(trade_Date as date) desc 
 
 go 
->>>>>>> 81a1d8b8492a745196c98bb67dc16e8593d6200a
 
 -- Cathay Pacific available Seat
 
@@ -90,3 +87,71 @@ select dateadd(day, datediff(day, '2023-06-18', GETDATE()), GETDATE())
 
 
 
+
+
+-----
+
+with one as (
+select 
+b1 = b1.id
+, b2 = b2.id
+, b3 = b3.id
+, b4 = b4.id 
+from #base b1 , #base b2 , #base b3 , #base b4 
+where b1.id != b2.id 
+and b1.id!= b3.id 
+and b1.id!=b4.id
+and b2.id!= b3.id
+and b2.id!=b4.id
+and b3.id!=b4.id 
+and b1.id = 1 
+) 
+, two as 
+(select 
+b1 = b1.id
+, b2 = b2.id
+, b3 = b3.id
+, b4 = b4.id 
+from #base b1 , #base b2 , #base b3 , #base b4 
+where b1.id != b2.id 
+and b1.id!= b3.id 
+and b1.id!=b4.id
+and b2.id!= b3.id
+and b2.id!=b4.id
+and b3.id!=b4.id 
+and b1.id = 2 
+)
+, three as
+(
+select 
+b1 = b1.id
+, b2 = b2.id
+, b3 = b3.id
+, b4 = b4.id 
+from #base b1 , #base b2 , #base b3 , #base b4 
+where b1.id != b2.id 
+and b1.id!= b3.id 
+and b1.id!=b4.id
+and b2.id!= b3.id
+and b2.id!=b4.id
+and b3.id!=b4.id 
+and b1.id = 3 
+)
+, four as
+(
+select 
+b1 = b1.id
+, b2 = b2.id
+, b3 = b3.id
+, b4 = b4.id 
+from #base b1 , #base b2 , #base b3 , #base b4 
+where b1.id != b2.id 
+and b1.id!= b3.id 
+and b1.id!=b4.id
+and b2.id!= b3.id
+and b2.id!=b4.id
+and b3.id!=b4.id 
+and b1.id = 4 
+)
+select  * from one, two, three, four
+ 
