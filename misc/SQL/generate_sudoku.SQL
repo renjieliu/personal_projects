@@ -55,8 +55,6 @@ order by 1, 2, 3, 4
 
 
 
-select * from #rpt 
-
 drop table if exists #duo
 
 select rn = ROW_NUMBER() over (order by A)
@@ -66,21 +64,22 @@ from #rpt
 where  --valid for each 2*2 grid 
 cast(substring(A, 1, 1) as int) +  cast(substring(A, 2, 1 ) as int) +  cast(substring(B, 1, 1)as int) +  cast(substring(B, 2, 1) as int)= 10 
 and 
-cast(substring(C, 1, 1) as int) +  cast(substring(C, 2, 1 ) as int) +  cast(substring(C, 1, 1)as int) +  cast(substring(C, 2, 1) as int)= 10 
+cast(substring(C, 1, 1) as int) +  cast(substring(C, 2, 1 ) as int) +  cast(substring(D, 1, 1)as int) +  cast(substring(D, 2, 1) as int)= 10 
  
 ; with a as (
-select rn, A, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 
+select rn, sn = 1, A, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 
 from #duo
 union all 
-select rn, B, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
+select rn, sn = 2, B, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
 union all
-select rn, C, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
+select rn, sn = 3, C, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
 union all
-select rn, D, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
+select rn, sn = 4, D, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
 ) 
 select
 rn
-,stuff( 
+, sn
+, stuff( 
 	stuff(A, cast(random_1 as int ), 1 , 'X')
 	,
 	cast(random_2 as int )
@@ -89,6 +88,9 @@ rn
 	)
 from a
 where rn = (select floor( rand()* (select max(rn) from #duo)  )  + 1)
+order by sn 
+
+
 
 
 
