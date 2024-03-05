@@ -9,9 +9,9 @@ select ch  = char(r+1), r = r+ 1 from rep
 where r <=  122 
 ), b as (
 select ch from rep
-where r between 48 and 57 
-	or r between 65 and 90 
-	or r between 97 and 122 
+where r between 48 and 57  -- number
+	or r between 65 and 90  -- uppercase letters
+	or r between 97 and 122  -- lowercase letters
 )
 select rn = ROW_NUMBER() over(order by newid() ) , * into #t from b
 ;
