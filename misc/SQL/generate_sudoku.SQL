@@ -1,3 +1,4 @@
+set nocount on;
 
 drop table if exists #base 
 
@@ -77,9 +78,9 @@ union all
 select rn, sn = 4, D, random_1 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1, random_2 = floor(rand(CRYPT_GEN_RANDOM(5))*4)+1 from #duo
 ) 
 select
-rn
-, sn
-, stuff( 
+--rn
+--, sn, 
+stuff( 
 	stuff(A, cast(random_1 as int ), 1 , 'X')
 	,
 	cast(random_2 as int )
@@ -87,7 +88,7 @@ rn
 	,'X'
 	)
 from a
-where rn = (select floor( rand()* (select max(rn) from #duo)  )  + 1)
+where rn = (select floor( rand()* (select max(rn) from #duo)  )  + 1) -- take anyone from the repository 
 order by sn 
 
 
