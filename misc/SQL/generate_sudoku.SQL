@@ -1,3 +1,5 @@
+----This is to generate 4*4 sudoku game
+
 set nocount on;
 
 drop table if exists #nums;
