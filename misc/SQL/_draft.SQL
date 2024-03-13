@@ -271,3 +271,9 @@ rn
 , lvl4_4  
 from rpt 
 order by 1 
+
+
+
+select datediff(day, '2008-05-16', '2023-10-03')/365.0
+
+
