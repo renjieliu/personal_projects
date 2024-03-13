@@ -91,6 +91,14 @@ select dateadd(day, datediff(day, '2023-06-18', GETDATE()), GETDATE())
 
 -----
 
+
+drop table if exists #base 
+
+select 
+* into #base
+from (values(1), (2), (3), (4)) t(id)
+
+
 with one as (
 select 
 b1 = b1.id
@@ -153,8 +161,9 @@ and b2.id!=b4.id
 and b3.id!=b4.id 
 and b1.id = 4 
 )
-select  * from one, two, three, four
+select * from one, two, three, four
 
+go 
 
 
 drop table if exists #base 
@@ -275,5 +284,12 @@ order by 1
 
 
 select datediff(day, '2008-05-16', '2023-10-03')/365.0
+
+
+
+
+
+
+
 
 
