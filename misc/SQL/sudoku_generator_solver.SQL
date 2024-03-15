@@ -111,35 +111,42 @@ order by sn
 -- https://technology.amis.nl/it/solving-a-sudoku-with-one-sql-statement/
 
 
-WITH 
- input AS (
-  select sud =  '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
- ) ,
- digits AS ( -- this is to generate from 1 to 9 
- select  num = cast('1' as varchar(max)), lp = 1
-   UNION ALL 
-   SELECT CAST(lp+1 AS varchar(max)), lp+1 FROM digits WHERE lp<9
- ) ,
- x AS (
-   SELECT s = cast(sud as varchar(max)) -- find the first location for the placeholder
-   , ind = cast(charindex('.', sud) as varchar(max) ) FROM input
-   UNION ALL
-   SELECT
-     cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
-	,cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max)) -- find the next .
-    FROM x, digits AS z -- filling in the numbers
-   WHERE ind > 0
-     AND NOT EXISTS (
-           SELECT * 
-		   FROM digits AS lp
-            WHERE z.num = substring(s, ((ind-1)/9)*9 + lp, 1) -- same row 
-               OR z.num = substring(s, ((ind-1)%9) + (lp-1)*9 + 1, 1) -- same col
-               OR z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
-                       + ((ind-1)/27) * 27 + lp
-                       + ((lp-1) / 3) * 6, 1)
-        )
+with input as 
+(
+  select sud =  '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79' -- "." is placeholders
+) 
+,digits as -- this is to generate from 1 to 9 
+( 
+select 
+num = cast('1' as varchar(max)), lp = 1
+union all 
+select cast(lp+1 AS varchar(max)), lp+1 
+from digits where lp<9
+) 
+, res AS (
+select  
+s = cast(sud as varchar(max)) -- find the first location for the placeholder
+, ind = cast(charindex('.', sud) as varchar(max) ) FROM input
+
+union all 
+
+select 
+ cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
+,cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max)) -- find the next .
+from res, digits z -- filling in the numbers
+where ind > 0
+and not exists  ( 
+	select * 
+	from digits d 
+	where z.num = substring(s, ((ind-1)/9)*9 + d.lp, 1) -- same row 
+		or z.num = substring(s, ((ind-1)%9) + (d.lp-1)*9 + 1, 1) -- same col
+		or z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
+					+ ((ind-1)/27) * 27 + lp
+					+ ((d.lp-1) / 3) * 6, 1)
+	)
  )
-SELECT s FROM x WHERE ind=0;
+select s from res 
+where ind = 0 -- cannot find . anymore
 
 
 
