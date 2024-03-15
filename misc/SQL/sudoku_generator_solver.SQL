@@ -103,6 +103,46 @@ order by sn
 
 
 
+---------this is to solve the sudoku---------
+-- TODO -- 
+-- Inspired by 
+-- https://forums.oracle.com/ords/apexds/post/explanation-of-a-complex-query-to-solve-sudoku-using-recurs-7923
+-- https://www.percona.com/blog/sudoku-recursive-common-table-expression-solver/ 
+-- https://technology.amis.nl/it/solving-a-sudoku-with-one-sql-statement/
+
+
+WITH 
+ input AS (
+  select sud =  '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
+ ) ,
+ digits AS (
+ select  z= cast('1' as varchar(max)), lp = 1
+   UNION ALL 
+   SELECT CAST(lp+1 AS varchar(max)), lp+1 FROM digits WHERE lp<9
+ ) ,
+ x AS (
+   SELECT s=  cast(sud as varchar(max)) , ind = cast(charindex('.', sud) as varchar(max) )FROM input
+   UNION ALL
+   SELECT
+     cast(substring( s, 1, ind-1) + z + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) ,
+	 cast(charindex('.' ,  substring(s, 1, ind-1) + z + substring(s, ind+1, len(s)-(ind+1))) as varchar(max))
+    FROM x, digits AS z
+   WHERE ind>0
+     AND NOT EXISTS (
+           SELECT 1
+             FROM digits AS lp
+            WHERE z.z = substring(s, ((ind-1)/9)*9 + lp, 1)
+               OR z.z = substring(s, ((ind-1)%9) + (lp-1)*9 + 1, 1)
+               OR z.z = substring(s, (((ind-1)/3) % 3) * 3
+                       + ((ind-1)/27) * 27 + lp
+                       + ((lp-1) / 3) * 6, 1)
+        )
+ )
+SELECT s FROM x WHERE ind=0;
+
+
+
+
 
 
 
