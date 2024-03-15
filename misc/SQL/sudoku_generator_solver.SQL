@@ -125,16 +125,16 @@ WITH
    , ind = cast(charindex('.', sud) as varchar(max) ) FROM input
    UNION ALL
    SELECT
-     cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max))
-	,cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max))
+     cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
+	,cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max)) -- find the next .
     FROM x, digits AS z -- filling in the numbers
    WHERE ind > 0
      AND NOT EXISTS (
            SELECT * 
 		   FROM digits AS lp
-            WHERE z.num = substring(s, ((ind-1)/9)*9 + lp, 1)
-               OR z.num = substring(s, ((ind-1)%9) + (lp-1)*9 + 1, 1)
-               OR z.num = substring(s, (((ind-1)/3) % 3) * 3
+            WHERE z.num = substring(s, ((ind-1)/9)*9 + lp, 1) -- same row 
+               OR z.num = substring(s, ((ind-1)%9) + (lp-1)*9 + 1, 1) -- same col
+               OR z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
                        + ((ind-1)/27) * 27 + lp
                        + ((lp-1) / 3) * 6, 1)
         )
