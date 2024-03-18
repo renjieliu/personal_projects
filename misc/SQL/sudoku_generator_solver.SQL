@@ -117,9 +117,12 @@ order by sn
 ,digits as -- this is to generate from 1 to 9 
 ( 
 select 
-num = cast('1' as varchar(max)), lp = 1
+num = cast('1' as varchar(max))
+, n = 1
 union all 
-select cast(lp+1 AS varchar(max)), lp+1 
+select 
+num = cast(lp+1 AS varchar(max))
+, n+1 
 from digits where lp<9
 ) 
 , res as 
@@ -131,19 +134,19 @@ s = cast(sud as varchar(max)) -- find the first location for the placeholder
 union all 
 
 select 
- cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
-,cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max)) -- find the next .
+ s = cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
+, ind = cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max)) -- find the next .
 from res, digits z -- filling in the numbers
 where ind > 0
 and not exists  
 	( 
 	select * 
 	from digits d 
-	where z.num = substring(s, ((ind-1)/9)*9 + d.lp, 1) -- same row 
-		or z.num = substring(s, ((ind-1)%9) + (d.lp-1)*9 + 1, 1) -- same col
+	where z.num = substring(s, ((ind-1)/9)*9 + d.n, 1) -- same row 
+		or z.num = substring(s, ((ind-1)%9) + (d.n-1)*9 + 1, 1) -- same col
 		or z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
-								+ ((ind-1)/27) * 27 + lp
-								+ ((d.lp-1) / 3) * 6, 1
+								+ ((ind-1)/27) * 27 + n
+								+ ((d.n-1) / 3) * 6, 1
 							)
 	)
  )
