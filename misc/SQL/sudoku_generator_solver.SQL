@@ -121,9 +121,9 @@ num = cast('1' as varchar(max))
 , n = 1
 union all 
 select 
-num = cast(lp+1 AS varchar(max))
+num = cast(n+1 AS varchar(max))
 , n+1 
-from digits where lp<9
+from digits where n<9
 ) 
 , res as 
 (
@@ -145,7 +145,7 @@ and not exists
 	where z.num = substring(s, ((ind-1)/9)*9 + d.n, 1) -- same row 
 		or z.num = substring(s, ((ind-1)%9) + (d.n-1)*9 + 1, 1) -- same col
 		or z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
-								+ ((ind-1)/27) * 27 + n
+								+ ((ind-1)/27) * 27 + d.n
 								+ ((d.n-1) / 3) * 6
 							, 1
 							)
