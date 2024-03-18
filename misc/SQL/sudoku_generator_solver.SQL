@@ -146,7 +146,8 @@ and not exists
 		or z.num = substring(s, ((ind-1)%9) + (d.n-1)*9 + 1, 1) -- same col
 		or z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
 								+ ((ind-1)/27) * 27 + n
-								+ ((d.n-1) / 3) * 6, 1
+								+ ((d.n-1) / 3) * 6
+							, 1
 							)
 	)
  )
