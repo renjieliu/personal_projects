@@ -144,7 +144,8 @@ and not exists
 	from digits d 
 	where z.num = substring(s, ((ind-1)/9)*9 + d.n, 1) -- same row 
 		or z.num = substring(s, ((ind-1)%9) + (d.n-1)*9 + 1, 1) -- same col
-		or z.num = substring(s, -- same 3*3 square
+		
+		or z.num = substring(s, -- to validate for each 3*3 square
 								  (ind-1) /3 % 3 * 3 -- to find the left upper corner coordinate of each 3*3, starting from the first line
 								+ ((ind-1)/27) * 27 -- add 27 to the first row, to get the next left upper corner
 
