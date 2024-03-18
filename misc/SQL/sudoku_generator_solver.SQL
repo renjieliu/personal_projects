@@ -123,7 +123,7 @@ union all
 select 
 num = cast(n+1 AS varchar(max))
 , n+1 
-from digits where n<9
+from digits where n < 9
 ) 
 , res as 
 (
@@ -144,10 +144,13 @@ and not exists
 	from digits d 
 	where z.num = substring(s, ((ind-1)/9)*9 + d.n, 1) -- same row 
 		or z.num = substring(s, ((ind-1)%9) + (d.n-1)*9 + 1, 1) -- same col
-		or z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
+		or z.num = substring(s, -- same 3*3 square
+								
+								  (ind-1) /3 % 3 * 3 -- to find the left upper corner coordinate (1-81) of each 3*3 
 								+ ((ind-1)/27) * 27
-								+ ((d.n-1) / 3) * 6
-								+ d.n -- iteration 1 to 9 
+								
+								+ ((d.n-1) / 3) * 6 -- iteration 1 to 9, adding to the left upper corner of the 3*3 
+								+ d.n
 							, 1
 							)
 	)
