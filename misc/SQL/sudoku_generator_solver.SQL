@@ -148,7 +148,6 @@ and not exists
 								
 								  (ind-1) /3 % 3 * 3 -- to find the left upper corner coordinate (1-81) of each 3*3 
 								+ ((ind-1)/27) * 27
-								
 								+ ((d.n-1) / 3) * 6 -- iteration 1 to 9, adding to the left upper corner of the 3*3 
 								+ d.n
 							, 1
