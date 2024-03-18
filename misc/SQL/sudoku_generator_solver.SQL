@@ -145,8 +145,9 @@ and not exists
 	where z.num = substring(s, ((ind-1)/9)*9 + d.n, 1) -- same row 
 		or z.num = substring(s, ((ind-1)%9) + (d.n-1)*9 + 1, 1) -- same col
 		or z.num = substring(s, (((ind-1)/3) % 3) * 3 -- same 3*3 square
-								+ ((ind-1)/27) * 27 + d.n
+								+ ((ind-1)/27) * 27
 								+ ((d.n-1) / 3) * 6
+								+ d.n -- iteration 1 to 9 
 							, 1
 							)
 	)
