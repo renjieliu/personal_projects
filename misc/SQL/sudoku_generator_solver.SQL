@@ -102,13 +102,8 @@ order by sn
 
 
 
+drop table if exists #res
 
----------this is to solve the sudoku---------
--- TODO -- 
--- Inspired by 
--- https://forums.oracle.com/ords/apexds/post/explanation-of-a-complex-query-to-solve-sudoku-using-recurs-7923
--- https://www.percona.com/blog/sudoku-recursive-common-table-expression-solver/ 
--- https://technology.amis.nl/it/solving-a-sudoku-with-one-sql-statement/
 
 ; with input as 
 (
@@ -134,7 +129,7 @@ s = cast(sud as varchar(81)) -- find the first location for the placeholder
 union all 
 
 select 
- s = cast(stuff(s, ind, 1, num) as varchar(81)) -- cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
+ s = cast(stuff(s, ind, 1, num) as varchar(81)) -- generate the new line 
 , ind = charindex('.' ,  stuff(s, ind, 1, num)) -- find the next .
 from res, digits z -- filling in the numbers
 where ind > 0
@@ -155,15 +150,20 @@ and not exists
 							)
 	)
  )
-select s from res 
+select s 
+-- into #res 
+from res 
 where ind = 0 -- cannot find . anymore
 
 
-
-
-
-
-
+--; with sud as
+--(select curr = cast(left(s, 9)  as varchar(max)), s = cast( right(s, len(s) - 9 ) as varchar(max)), id = 1  from #res 
+--union all
+--select curr = cast(left(s, 9)  as varchar(max)) , s = cast( right(s, len(s) - 9 ) as varchar(max))  , id + 1  from sud
+--where s != ''
+--)
+--select curr  from sud 
+--order by id
 
 
 
