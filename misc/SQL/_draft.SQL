@@ -293,3 +293,37 @@ select (41-1) % 3 * 3 + ((41-1)/27) * 27
 
 
 
+---------replace random location with random character for a string ------------
+
+
+
+
+with st as 
+(select s = replicate('_', 100) )
+,rnd as
+(
+select num =  floor (  rand(HASHBYTES( 'MD5',  cast(newid() as varchar(max)) )) * 99) + 1
+, cha =  char( floor (  rand(HASHBYTES( 'MD5',  cast(newid() as varchar(max)) )) * 26) + 65 )
+, id = 1
+
+union all 
+select num = floor (  rand(HASHBYTES( 'MD5',  cast(newid() as varchar(max)) )) * 99 ) + 1 
+, cha =  char( floor (  rand(HASHBYTES( 'MD5',  cast(newid() as varchar(max)) )) * 26) + 65 )
+, id + 1  from  rnd 
+where id < 10 
+) , res  as 
+(select 
+
+curr = stuff(st.s, cast(rnd.num  as int ) , 1, cha)
+, rnd.id
+from st , rnd  where rnd.id = 1
+union all 
+select 
+curr = stuff(res.curr, cast(rnd.num  as int ) , 1, cha)
+, rnd.id
+from res , rnd  where rnd.id = res.id + 1
+)
+select * from res
+where id = 10
+
+------------------------------------------------------------------------------------------
