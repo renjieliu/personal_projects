@@ -296,8 +296,6 @@ select (41-1) % 3 * 3 + ((41-1)/27) * 27
 ---------replace random location with random character for a string ------------
 
 
-
-
 with st as 
 (select s = replicate('_', 100) )
 ,rnd as
@@ -326,4 +324,9 @@ from res , rnd  where rnd.id = res.id + 1
 select * from res
 where id = 10
 
+
 ------------------------------------------------------------------------------------------
+
+
+
+
