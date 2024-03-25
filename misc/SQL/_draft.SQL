@@ -327,6 +327,25 @@ where id = 10
 
 ------------------------------------------------------------------------------------------
 
+-- banker's rounding
+
+-- "round to nearest, if ties, round to even"
+
+-- print(round(12.5)) --> 12
+
+-- print(round(11.5)) --> 12
+
+declare @n float = 112.5  -- select  round(12.5, 0)
+ 
+
+select res = case when @n = round(@n, 0) then @n 
+			      when abs(@n - round(@n, 0)) = 0.5 then 
+                        case when cast( round(@n, 0) as int)  % 2 = 0  then round(@n, 0)
+                            else floor(@n)
+                        end 
+                        else round(@n, 0)
+             end
+
 
 
 
