@@ -102,13 +102,8 @@ order by sn
 
 
 
+drop table if exists #res
 
----------this is to solve the sudoku---------
--- TODO -- 
--- Inspired by 
--- https://forums.oracle.com/ords/apexds/post/explanation-of-a-complex-query-to-solve-sudoku-using-recurs-7923
--- https://www.percona.com/blog/sudoku-recursive-common-table-expression-solver/ 
--- https://technology.amis.nl/it/solving-a-sudoku-with-one-sql-statement/
 
 ; with input as 
 (
@@ -117,26 +112,40 @@ order by sn
 ,digits as -- this is to generate from 1 to 9 
 ( 
 select 
-num = cast('1' as varchar(max))
+num = cast('1' as varchar(1))
 , n = 1
 union all 
 select 
+<<<<<<< HEAD
 num = cast(n+1 as varchar(max))
+=======
+num = cast(n+1 as varchar(1) )
+>>>>>>> 40b29d2ff5f48d4dbbcb6a172d57dab984d9ea6c
 , n+1 
 from digits where n < 9
 ) 
 , res as 
 (
 select  
+<<<<<<< HEAD
 s = cast(sud as varchar(max)) -- find the first location for the placeholder
 , ind = cast(charindex('.', sud) as varchar(max) ) 
 from input
+=======
+s = cast(sud as varchar(81)) -- find the first location for the placeholder
+, ind =  charindex('.', sud) FROM input
+>>>>>>> 40b29d2ff5f48d4dbbcb6a172d57dab984d9ea6c
 
 union all 
 
 select 
+<<<<<<< HEAD
  s = cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-ind )  as varchar(max)) -- generate the new line
 , ind = cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-ind)) as varchar(max)) -- find the next .
+=======
+ s = cast(stuff(s, ind, 1, num) as varchar(81)) -- generate the new line 
+, ind = charindex('.' ,  stuff(s, ind, 1, num)) -- find the next .
+>>>>>>> 40b29d2ff5f48d4dbbcb6a172d57dab984d9ea6c
 from res, digits z -- filling in the numbers
 where ind > 0
 and not exists  
@@ -156,8 +165,21 @@ and not exists
 							)
 	)
  )
-select s from res 
+select s 
+-- into #res 
+from res 
 where ind = 0 -- cannot find . anymore
+
+
+--; with sud as
+--(select curr = cast(left(s, 9)  as varchar(max)), s = cast( right(s, len(s) - 9 ) as varchar(max)), id = 1  from #res 
+--union all
+--select curr = cast(left(s, 9)  as varchar(max)) , s = cast( right(s, len(s) - 9 ) as varchar(max))  , id + 1  from sud
+--where s != ''
+--)
+--select curr  from sud 
+--order by id
+
 
 
 
