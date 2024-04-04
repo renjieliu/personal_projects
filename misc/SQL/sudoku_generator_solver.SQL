@@ -121,7 +121,7 @@ num = cast('1' as varchar(max))
 , n = 1
 union all 
 select 
-num = cast(n+1 AS varchar(max))
+num = cast(n+1 as varchar(max))
 , n+1 
 from digits where n < 9
 ) 
@@ -129,13 +129,14 @@ from digits where n < 9
 (
 select  
 s = cast(sud as varchar(max)) -- find the first location for the placeholder
-, ind = cast(charindex('.', sud) as varchar(max) ) FROM input
+, ind = cast(charindex('.', sud) as varchar(max) ) 
+from input
 
 union all 
 
 select 
- s = cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1) )  as varchar(max)) -- generate the new line
-, ind = cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-(ind+1))) as varchar(max)) -- find the next .
+ s = cast(substring( s, 1, ind-1) + num + substring(s, ind+1, len(s)-ind )  as varchar(max)) -- generate the new line
+, ind = cast(charindex('.' ,  substring(s, 1, ind-1) + num + substring(s, ind+1, len(s)-ind)) as varchar(max)) -- find the next .
 from res, digits z -- filling in the numbers
 where ind > 0
 and not exists  
