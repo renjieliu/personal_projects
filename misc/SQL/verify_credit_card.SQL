@@ -1,13 +1,14 @@
 -- Luhn to verify the credit card number 
 
-declare @number varchar(16) = '341124521098'
+declare @number varchar(200) = '5555 5555 5555 4444'
 
 -- 0. formalize the number to be 16 digits 
+set @number = REPLACE(@number, ' ', '')
 
 ; with prep as 
 (
- select cc = case when @number like '%[^0-9]%' or len(@number) != 16 then replicate('0', 16) -- make the number all 0.
-				 else @number 
+ select cc = case when @number like '%[^0-9]%' or len(@number) not in (15, 16) then replicate('0', 16) -- make the number all 0.
+				 else @number
 			 end
 )
 -- split the card number 
