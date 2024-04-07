@@ -1,9 +1,19 @@
 -- Luhn to verify the credit card number 
 
--- 1. split the card number 
-with base as 
+declare @number varchar(16) = '341124521098'
+
+-- 0. formalize the number to be 16 digits 
+
+; with prep as 
 (
-	select curr = '',  rem = '1111111111111111', id = 0 
+ select cc = case when @number like '%[^0-9]%' or len(@number) != 16 then replicate('0', 16) -- make the number all 0.
+				 else @number 
+			 end
+)
+-- split the card number 
+,  base as 
+(
+	select curr = '',  rem =cc, id = 0 from prep
 	union all
 	select left(rem, 1), right(rem, len(rem)-1), id + 1 from base
 	where rem > ''
@@ -13,19 +23,17 @@ select
 right_to_left = row_number() over(order by id desc)
 , * 
 from base
-)
-, B as ( -- from right to left, if at even position then double the number, if doubled number is > 9, minus 9. 
+) -- select * from A
+, B as ( -- from right to left, double the number at even position, if doubled number is > 9, minus 9. 
 select 
 doubled = case when id = 0 then 0 
 			   else iif(right_to_left % 2 = 0, iif( curr*2 > 9, curr*2-9, curr*2 ), curr)
 		  end 
 , *
 from A 
-)  -- if the original length is 16 and total sum can be divided by 10, then valid 
+)  -- valid if total sum can be divided by 10 and the original number is not all 0 
 select
-	result = case when sum(doubled) % 10 = 0 and 16 = (select len(rem) from B where id = 0 ) then 1 
-				  else 0
-			 end
+	result = iif(sum(doubled) % 10 = 0 and sum(doubled) > 0 , 1, 0)
 from B
 
 
