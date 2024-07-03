@@ -1,1 +1,1 @@
-insert into xxxxx
+insert into t select 1 

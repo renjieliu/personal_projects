@@ -1,1 +1,1 @@
-update XXXX
+update x set y = 1
