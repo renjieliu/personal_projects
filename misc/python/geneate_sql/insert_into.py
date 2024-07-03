@@ -8,7 +8,7 @@
 
 
 src_table = '#staging'
-tgt_table = 'SWPS_DATA.GRC.UNV_Final'
+tgt_table = 'db.schema.tableName'
 
 output = []
 title = []
