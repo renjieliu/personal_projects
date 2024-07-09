@@ -348,8 +348,8 @@ select res = case when @n = round(@n, 0) then @n
 
 
 
--- From last time using the AC to now - 
-select DATEDIFF(day, '2022-10-08', GETDATE()) + 1 
+-- From last time using the AC at home to now - 
+select DATEDIFF(day, '2022-10-08', '2024-07-08') + 1 
 
 
 
