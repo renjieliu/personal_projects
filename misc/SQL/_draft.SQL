@@ -352,6 +352,29 @@ select res = case when @n = round(@n, 0) then @n
 select DATEDIFF(day, '2022-10-08', '2024-07-08') + 1 
 
 
+go
+
+
+------------- analysis on Xiaomi fitness -------------
+drop table if exists #xiaomi
+
+
+select dateTime = DATEADD(SECOND, [Time], '1970-01-01')
+, * 
+into #xiaomi
+from xiaomi_fitness
+
+
+
+select top 100 * from #xiaomi
+
+select * from #xiaomi 
+where [Key] = 'calories'
+and year([dateTime]) = 2024
+order by 1 desc 
+
+
+
 
 
 
