@@ -1,8 +1,8 @@
 #1. Copy the weread notes to the weReadNotes.txt
 #2. Get the flomo api
-#3. Replace the bookName variable with the author and bookName
-#3. Run this script, it outputs a command to run in Linux
-#4. Execute the command, which should publish all the notes to flomo
+#3. Replace the bookName, tag variable with the author and bookName
+#4. Run this script, it outputs a command to run in Linux
+#5. Execute the command, which should publish all the notes to flomo
 
 api = "xxxxx"
 note_placeholder = "@@"
