@@ -10,12 +10,13 @@ flomo_api = r'''curl -X POST FLOMOAPI -H "Content-type: application/json" -d '{"
 weReadNotes = []
 command = []
 bookName = "Author - <BookName>"  # this is to be replaced for each book
+tag = "#readwise"
 
 with open("weReadNotes.txt", encoding="utf-8") as f:
     for line in f:
         if line[0] == "◆":
             note = line[2:].strip("\r\n").replace("'", r"'\''")
-            note += " -- " + bookName
+            note = f"{tag} \r\n" + note + " -- " + bookName
             commandTxt = flomo_api.replace(note_placeholder, note)
             command.append(commandTxt)
 
