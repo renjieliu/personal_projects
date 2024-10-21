@@ -1,6 +1,6 @@
 import os
 
-path = r"C:\Users\Renjie.Liu\Desktop\Wallpapers\\"
+path = r"C:\Users\liurenjie\Desktop\New folder\\"
 
 for f in os.listdir(path):
     file = path +f
