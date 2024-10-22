@@ -1,10 +1,15 @@
 #1. Copy the weread notes to the weReadNotes.txt
-#2. Get the flomo api
+#2. Get the flomo api, to put into the .env file
 #3. Replace the bookName, tag variable with the author and bookName
 #4. Run this script, it outputs a command to run in Linux
 #5. Execute the command, which should publish all the notes to flomo
 
-api = "xxxxx"
+from dotenv import load_dotenv
+import os
+
+env = load_dotenv(".env") #this is to load all the environment variables
+api=os.getenv("FLOMO_API")
+
 note_placeholder = "@@"
 flomo_api = r'''curl -X POST FLOMOAPI -H "Content-type: application/json" -d '{"content": "PLACEHOLDER" }' '''.replace("FLOMOAPI", api).replace("PLACEHOLDER", note_placeholder)
 weReadNotes = []
