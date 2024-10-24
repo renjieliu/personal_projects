@@ -16,6 +16,11 @@ Steps -
 
 '''
 
+# TODO 
+# 1. To understand each part and reduce hard code 
+# 2. create functions for each step 
+# 3. split into different modules
+
 
 import fitz 
 import os
