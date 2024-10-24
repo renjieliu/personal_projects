@@ -70,7 +70,6 @@ toc.append( [2, additional_toc, content_page+1, {'kind': 1, 'page': content_page
 
 pdf_main.set_toc(toc)
 
-
 toc_page_idx = 1
 pdf_main.insert_page(toc_page_idx, width=paper_width, height=paper_height)
 toc_page = pdf_main[toc_page_idx] 
