@@ -1,3 +1,22 @@
+'''
+Steps - 
+0. Get below files in the directory
+    - input.pdf - this is the main pdf to extract bookmarks from
+    - addtional.pdf - this is the pdf file to append to the end of the main pdf
+
+1. Get the main pdf file with bookmarks (toc)
+    1.1 Insert other pdf as needed
+2. Draw the ToC entry
+    2.1 Break into multiple lines if needed
+3. Find the position to draw page number
+4. Draw a link rectangle on top of the ToC Entry, also need to cover the page number
+5. Draw the page number on the right down corner of the ToC 
+6. Adjust the bookmark location with the total number of ToC pages
+7. Save the file.
+
+'''
+
+
 import fitz 
 import os
 
@@ -11,20 +30,6 @@ print("Current working directory:", os.getcwd())
 
 
 
-'''
-Steps - 
-
-1. Get the main pdf file with bookmarks (toc)
-    1.1 Insert other pdf as needed
-2. Draw the ToC entry
-    2.1 Break into multiple lines if needed
-3. Find the position to draw page number
-4. Draw a link rectangle on top of the ToC Entry, also need to cover the page number
-5. Draw the page number on the right down corner of the ToC 
-6. Adjust the bookmark location with the total number of ToC pages
-7. Save the file.
-
-'''
 
 print('Generating Table of Content....')
 
