@@ -18,10 +18,11 @@ soup = BeautifulSoup(response.text, 'html.parser')
 
 # Extract information within the "well" class container
 people_data = []
+
 for well in soup.select('.well'):
     # Extract name with hyperlink from "smg-link text-center"
     name_tag = well.select_one('.smg-link.text-center a')
-    #print(name_tag)
+
     if name_tag:
         name = name_tag.get_text(strip=True)
         name_link = name_tag.get('href')
@@ -33,16 +34,19 @@ for well in soup.select('.well'):
     title = title_tag.get_text(strip=True) if title_tag else "N/A"
     
     # Append name with hyperlink and title as a tuple to people_data
-    people_data.append((f"[{name}]({name_link})", title))
+    people_data.append((name, name_link, title))
 
-# Create Markdown table output
-markdown_table = "| Name | Title |\n| --- | --- |\n"
-for name, title in people_data:
-    markdown_table += f"| {name} | {title} |\n"
+# Create HTML table output
+html_table = "<table>\n<tr><th>Name</th><th>Title</th></tr>\n"
+for name, link, title in people_data:
+    html_table += f'<tr><td><a href="{link}">{name}</a></td><td>{title}</td></tr>\n'
+html_table += "</table>"
 
 # Print or save the result
-print(markdown_table)
+print(html_table)
 
 # If you want to save the output to a file
-with open("output.md", "w") as file:
-    file.write(markdown_table)
+with open("output.html", "w") as file:
+    file.write(html_table)
+
+
