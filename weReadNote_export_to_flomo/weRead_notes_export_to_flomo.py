@@ -20,7 +20,7 @@ with open("weReadNotes.txt", encoding="utf-8") as f:
     for line in f:
         if line[0] == "◆":
             note = line[2:].strip("\r\n").replace("'", r"'\''")
-            note = fr"{tag} \n" + note + " -- " + bookName
+            note = rf"{tag} \n" + note + " -- " + bookName
             commandTxt = flomo_api.replace(note_placeholder, note)
             command.append(commandTxt)
 
