@@ -13,7 +13,7 @@ note_placeholder = "@@"
 flomo_api = r'''curl -X POST FLOMOAPI -H "Content-type: application/json" -d '{"content": "PLACEHOLDER" }' '''.replace("FLOMOAPI", api).replace("PLACEHOLDER", note_placeholder)
 weReadNotes = []
 command = []
-bookName = "Jon Gordon - <The Energy Bus>"  # this is to be replaced for each book
+bookName = "xxxx - 《 yyyyy 》"  # this is to be replaced for each book
 tag = "#readwise"
 
 with open("weReadNotes.txt", encoding="utf-8") as f:
