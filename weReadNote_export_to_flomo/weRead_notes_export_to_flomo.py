@@ -13,7 +13,11 @@ note_placeholder = "@@"
 flomo_api = r'''curl -X POST FLOMOAPI -H "Content-type: application/json" -d '{"content": "PLACEHOLDER" }' '''.replace("FLOMOAPI", api).replace("PLACEHOLDER", note_placeholder)
 weReadNotes = []
 command = []
-bookName = "xxxx - 《 yyyyy 》"  # this is to be replaced for each book
+
+left_angle_bracket = "&lt;" # flomo will treat < and > as html tags, so using the literal html code
+right_angle_bracket = "&gt;"
+
+bookName = rf"xxxx - {left_angle_bracket}yyyyy{right_angle_bracket}"  # this is to be replaced for each book, and 
 tag = "#readwise"
 
 with open("weReadNotes.txt", encoding="utf-8") as f:
