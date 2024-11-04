@@ -9,19 +9,22 @@ import os
 
 env = load_dotenv(".env") #this is to load all the environment variables
 api=os.getenv("FLOMO_API")
-
 note_placeholder = "@@"
 flomo_api = r'''curl -X POST FLOMOAPI -H "Content-type: application/json" -d '{"content": "PLACEHOLDER" }' '''.replace("FLOMOAPI", api).replace("PLACEHOLDER", note_placeholder)
 weReadNotes = []
 command = []
-bookName = "Author - <BookName>"  # this is to be replaced for each book
+
+left_angle_bracket = "&lt;" # flomo will treat < and > as html tags, so using the literal html code
+right_angle_bracket = "&gt;"
+
+bookName = rf"xxxx - {left_angle_bracket}yyyyy{right_angle_bracket}"  # this is to be replaced for each book, and 
 tag = "#readwise"
 
 with open("weReadNotes.txt", encoding="utf-8") as f:
     for line in f:
         if line[0] == "◆":
             note = line[2:].strip("\r\n").replace("'", r"'\''")
-            note = f"{tag} \n" + note + " -- " + bookName
+            note = rf"{tag} \n" + note + " -- " + bookName
             commandTxt = flomo_api.replace(note_placeholder, note)
             command.append(commandTxt)
 
