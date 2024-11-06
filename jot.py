@@ -20,10 +20,11 @@ def exec_sql(MSSQL_DB_SERVER, MSSQL_DB_USER, MSSQL_DB_PWD, SQL_Command, mode):
             else:
                 print(f'{sql} runs successfully!')
                 connection.commit()
-                
+            
 
-sql = 'update this_is_from_python set id = 1;'
-mode = 2 # mode 1 --> select , 2 --> update, delete, insert
+sql = 'select * from stock_20220112'
+
+mode = 1 # mode 1 --> select , 2 --> update, delete, insert
 exec_sql(MSSQL_DB_SERVER, MSSQL_DB_USER, MSSQL_DB_PWD, sql, mode)
 
 
