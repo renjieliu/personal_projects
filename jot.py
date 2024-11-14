@@ -1,9 +1,10 @@
 import tkinter as tk
 import math
+import time
 
 
 class SpinningCircle:
-    def __init__(self, root, radius=50, dot_radius=5, num_dots=12, speed=100):
+    def __init__(self, root, radius=50, dot_radius=5, num_dots=12, speed=50):
         self.root = root
         self.radius = radius
         self.dot_radius = dot_radius
@@ -15,6 +16,7 @@ class SpinningCircle:
         self.dots = []
         self.cnt = 0
         self.create_dots()
+        time.sleep(1)
         self.animate()
 
 
@@ -35,12 +37,13 @@ class SpinningCircle:
         """Animate the spinning circle by changing dot opacities in sequence"""
         self.angle = (self.angle + 1) % self.num_dots
         self.cnt += 1 
-        print(f"current loop: {self.cnt}" )
+        
         for i, dot in enumerate(self.dots):
             # Adjust the dot's brightness based on its position in the circle
             brightness = 255 - int(200 * ((i - self.angle) % self.num_dots) / self.num_dots)
             color = f'#{brightness:02x}{brightness:02x}{brightness:02x}'
             self.canvas.itemconfig(dot, fill=color)
+        
         self.root.after(self.speed, self.animate)
 
 # Main application window
