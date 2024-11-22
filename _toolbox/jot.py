@@ -1,57 +1,156 @@
-import tkinter as tk
-import math
-import time
+# 使用Python将文本转为二维码错误纠正码（ECC）
+# 以下实现演示了如何手动生成 Reed-Solomon 错误校验码
 
 
-class SpinningCircle:
-    def __init__(self, root, radius=50, dot_radius=5, num_dots=12, speed=50):
-        self.root = root
-        self.radius = radius
-        self.dot_radius = dot_radius
-        self.num_dots = num_dots
-        self.speed = speed  # milliseconds delay between frames
-        self.angle = 0  # initial angle
-        self.canvas = tk.Canvas(root, width=2*radius+40, height=2*radius+40, bg='white')
-        self.canvas.pack()
-        self.dots = []
-        self.cnt = 0
-        self.create_dots()
-        time.sleep(1)
-        self.animate()
+def generate_error_correction(data, ecc_length):
+    """
+    生成错误纠正码
+    :param data: 输入数据（文本，以字节表示）
+    :param ecc_length: 错误校正码长度
+    :return: 错误校正码
+    """
+    # 二进制的 Galois Field 表 (QR码在GF(256)中运算)
+    gf256 = [1]
+
+    for _ in range(255):
+        next_val = gf256[-1] * 2
+        if next_val >= 256:
+            next_val ^= 0x11d  # 与生成多项式 x^8 + x^4 + x^3 + x^2 + 1 异或
+        gf256.append(next_val)
+    print(gf256)
+    
+    
+    
+    gf256_inv = [0] * 256
+    for i, val in enumerate(gf256):
+        gf256_inv[val] = i
+
+    # 创建 Reed-Solomon 生成多项式
+    generator = [1]
+
+    def multiply_poly(p1, p2):
+        """多项式乘法"""
+        result = [0] * (len(p1) + len(p2) - 1)
+        for i, coef1 in enumerate(p1):
+            for j, coef2 in enumerate(p2):
+                result[i + j] ^= coef1 * coef2
+        return result
+
+    for i in range(ecc_length):
+        generator = multiply_poly(generator, [1, gf256[i]])
+
+    # 将数据转化为多项式
+    data_poly = [ord(c) for c in data] + [0] * ecc_length
 
 
-    def create_dots(self):
-        """Create dots arranged in a circular pattern"""
-        for i in range(self.num_dots):
-            angle = (2 * math.pi / self.num_dots) * i
-            x = self.radius * math.cos(angle) + self.radius + 20
-            y = self.radius * math.sin(angle) + self.radius + 20
-            dot = self.canvas.create_oval(
-                x - self.dot_radius, y - self.dot_radius, 
-                x + self.dot_radius, y + self.dot_radius, 
-                fill="black"
-            )
-            self.dots.append(dot)
 
-    def animate(self):
-        """Animate the spinning circle by changing dot opacities in sequence"""
-        self.angle = (self.angle + 1) % self.num_dots
-        self.cnt += 1 
+    def galois_mult(a, b, gf256):
+        """伽罗瓦域中的乘法"""
+        return (a + b) % 255
+
+
+
+    # 利用生成多项式计算余数（即错误校正码）
+    for i in range(len(data)):
+        coef = data_poly[i]
+        if coef != 0:
+            for j in range(len(generator)):
+                data_poly[i + j] ^= gf256[galois_mult(gf256_inv[coef], generator[j], gf256)]
+
+    return data_poly[-ecc_length:]
+
+
+
+text = "HELLO WORLD"  # 输入文本
+ecc_length = 10  # 错误纠正码长度
+
+ecc = generate_error_correction(text, ecc_length)
+print("错误纠正码：", ecc)
+
+
+'''
+
+input = 'hello world'
+length for correction, need to get this from the ecc spec table
+
+function calling - generate_error_correction 
+
+
+
+
+
+
+output the result
+
+
+
+
+
+
+
+
+'''
+
+
+
+
+
+
+
+# import tkinter as tk
+# import math
+# import time
+
+
+# class SpinningCircle:
+#     def __init__(self, root, radius=50, dot_radius=5, num_dots=12, speed=50):
+#         self.root = root
+#         self.radius = radius
+#         self.dot_radius = dot_radius
+#         self.num_dots = num_dots
+#         self.speed = speed  # milliseconds delay between frames
+#         self.angle = 0  # initial angle
+#         self.canvas = tk.Canvas(root, width=2*radius+40, height=2*radius+40, bg='white')
+#         self.canvas.pack()
+#         self.dots = []
+#         self.cnt = 0
+#         self.create_dots()
+#         time.sleep(1)
+#         self.animate()
+
+
+#     def create_dots(self):
+#         """Create dots arranged in a circular pattern"""
+#         for i in range(self.num_dots):
+#             angle = (2 * math.pi / self.num_dots) * i
+#             x = self.radius * math.cos(angle) + self.radius + 20
+#             y = self.radius * math.sin(angle) + self.radius + 20
+#             dot = self.canvas.create_oval(
+#                 x - self.dot_radius, y - self.dot_radius, 
+#                 x + self.dot_radius, y + self.dot_radius, 
+#                 fill="black"
+#             )
+#             self.dots.append(dot)
+
+#     def animate(self):
+#         """Animate the spinning circle by changing dot opacities in sequence"""
+#         self.angle = (self.angle + 1) % self.num_dots
+#         self.cnt += 1 
         
-        for i, dot in enumerate(self.dots):
-            # Adjust the dot's brightness based on its position in the circle
-            brightness = 255 - int(200 * ((i - self.angle) % self.num_dots) / self.num_dots)
-            color = f'#{brightness:02x}{brightness:02x}{brightness:02x}'
-            self.canvas.itemconfig(dot, fill=color)
+#         for i, dot in enumerate(self.dots):
+#             # Adjust the dot's brightness based on its position in the circle
+#             brightness = 255 - int(200 * ((i - self.angle) % self.num_dots) / self.num_dots)
+#             color = f'#{brightness:02x}{brightness:02x}{brightness:02x}'
+#             self.canvas.itemconfig(dot, fill=color)
         
-        self.root.after(self.speed, self.animate)
+#         self.root.after(self.speed, self.animate)
 
-# Main application window
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Code-Based Spinning Circle")
-    app = SpinningCircle(root)
-    root.mainloop()
+# # Main application window
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     root.title("Code-Based Spinning Circle")
+#     app = SpinningCircle(root)
+#     root.mainloop()
 
 
 
