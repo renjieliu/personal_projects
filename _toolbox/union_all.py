@@ -1,11 +1,12 @@
 # Copy the Excel content to tab_file.txt
 # Run the script - this will generate the union_all.SQL, with the union all to put all the values together
-# In the values.SQL
+# In the tab_file.txt
 
 cnt = 0
 output = []
 first_row_is_column_name = 1 
 dummy_col = 'dummy_col'
+
 with open("tab_file.txt", encoding='utf8') as f: # open the file with utf8
     lines = f.readlines()
     # output.append("select * from (values") 
@@ -16,8 +17,9 @@ with open("tab_file.txt", encoding='utf8') as f: # open the file with utf8
         arr = line.split('\t')
         curr = f"select {dummy_col} = '"
         for i, c in enumerate(arr):
-            curr += arr[i] + "' " + (f", {dummy_col} = '" if i < len(arr)-1 else "" )
-        curr += r"union all" # add union all),
+            curr += arr[i] + "' " + ( f", {dummy_col} = '" if i < len(arr)-1 else "" )
+        
+        curr += r"union all" # add union all to each record,
         output.append(curr) 
 
 if first_row_is_column_name == 1:  # to add column names to the first line
