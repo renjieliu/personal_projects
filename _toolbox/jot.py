@@ -40,7 +40,9 @@ def generate_error_correction(data, ecc_length):
                 result[i + j] ^= coef1 * coef2
         
         generator = result
-
+    
+    for i, g in enumerate(generator):
+        print(i, g)
     
     # 将数据转化为多项式
     data_poly = [ord(c) for c in data] + [0] * ecc_length
