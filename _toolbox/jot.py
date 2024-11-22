@@ -33,18 +33,19 @@ def generate_error_correction(data, ecc_length):
     generator = [1]
     for r in range(ecc_length):
         p1 = generator
-        p2 =[1, gf256[r]]
+        p2 = [1, gf256[r]]
+        
         result = [0] * (len(p1) + len(p2) - 1)
         for i, coef1 in enumerate(p1):
             for j, coef2 in enumerate(p2):
                 result[i + j] ^= coef1 * coef2
         
         generator = result
-
-    
+        print(generator)
+        
     # 将数据转化为多项式
     data_poly = [ord(c) for c in data] + [0] * ecc_length
-    print(data_poly)
+    # print(data_poly)
 
     # 利用生成多项式计算余数（即错误校正码）
     for i in range(len(data)):
