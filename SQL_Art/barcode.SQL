@@ -154,7 +154,7 @@ union all
 select n + 1
 , indent
 , barcode from cte 
-where n <= 10
+where n <= 0
 )
 select indent, barcode into #display from cte 
 option(maxrecursion 0)
