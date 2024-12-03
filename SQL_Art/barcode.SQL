@@ -46,7 +46,7 @@ select digit = '9' , pattern = '1110100' , comment = 'Right pattern for "9"'
 
 drop table if exists #upc
 
-select upc = '03600029145' into #upc
+select upc = '05100001251' into #upc
 
 drop table if exists #brk
 
@@ -62,21 +62,23 @@ union all
 
 select 
 id + 1 
-, curr =cast( left(rem, 1 ) as int)
+, curr = cast(left(rem, 1 ) as int)
 , code = cm.pattern
 , rem = right(rem, len(rem) - 1 ) 
 from cte c
-inner join #code_mapping cm on  1 = case when id + 1 <= 6 and comment like '%left%' and c.curr = cm.digit then 1 
-                                         when id + 1 > 6 and comment like '%right%' and c.curr = cm.digit then 1
+inner join #code_mapping cm on  1 = case when id + 1 <= 6 and comment like '%left%' and cast(left(rem, 1 ) as int) = cm.digit then 1 
+                                         when id + 1 > 6 and comment like '%right%' and cast(left(rem, 1 ) as int) = cm.digit then 1
                                          else 0 
                                     end
 
-where c.id <= 10 
+where len(rem)>0 
 ) 
 select * into #brk from cte
 order by 1 
 OPTION(maxrecursion 0)
 
+
+-- select * from #brk
 
 -- compute the final number
 
@@ -160,5 +162,8 @@ option(maxrecursion 0)
 
 select * from #display
 
+-- select * from #final 
 --  TODO - Below is to generate code 128 type of barcode 
+
+
 
