@@ -92,19 +92,21 @@ into #final_digit_sum
 
 
 -- concatenate the final number with the upc numbers
+drop table if exists #check_num 
 
 drop table if exists #final
 
-; with final_number as (
+
 select -- round up to the nearest 10
 n = 10 + 10 * (final /10) - final
+into #check_num
 from #final_digit_sum
-)
-, res as (
+ 
+; with res as (
 select id, curr, code from #brk -- this is the first 11 numbers
 union all 
 select 12, n, cm.pattern 
-from final_number fn inner join #code_mapping cm 
+from #check_num fn inner join #code_mapping cm 
 on fn.n= cm.digit and cm.comment like '%right%'
 )
 , merged as (
@@ -140,7 +142,7 @@ drop table if exists #display
 (
 select 
 n = 1 
-, indent = REPLICATE(' ', 100)
+, indent = ( select upc from #upc) + (select cast(n as varchar) from #check_num) -- + REPLICATE(' ', 100)
 , barcode = 
 	REPLACE(
 		REPLACE(
