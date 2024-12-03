@@ -1,5 +1,8 @@
 -- Below is to generate the UPC-A barcode 
 
+drop table if exists #upc
+
+select upc = '05100001251' into #upc
 
 
 drop table if exists #code_mapping 
@@ -43,10 +46,6 @@ select digit = '9' , pattern = '1110100' , comment = 'Right pattern for "9"'
 -- select * from #left_side
 -- select * from #right_side 
 
-
-drop table if exists #upc
-
-select upc = '05100001251' into #upc
 
 drop table if exists #brk
 
