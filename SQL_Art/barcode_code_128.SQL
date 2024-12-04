@@ -2,6 +2,9 @@
 -- go 
 
 -- Below is to generate a bar code following code 128 standard. 
+
+-- v2 to do - to understand function characters in the barcodes
+
 drop table if exists #txt
 
 select txt = 'PUT_TEXT_HERE' into #txt
@@ -13,6 +16,8 @@ starting = 104  -- this is for code_128b
 , ending = 106
 into #start_end
 
+
+-- Table from https://en.wikipedia.org/wiki/Code_128
 
 drop table if exists #code_mapping 
 
