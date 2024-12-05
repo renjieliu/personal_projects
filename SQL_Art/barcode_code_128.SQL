@@ -7,7 +7,7 @@
 
 drop table if exists #txt
 
-select txt = 'PUT_TEXT_HERE' into #txt
+select txt = 'HAPPY 2025!' into #txt
 
 drop table if exists #start_end 
 
@@ -192,7 +192,13 @@ select txt, barcode into #display from cte
 option(maxrecursion 0)
 
 
+
+declare @barcode nvarchar(max) =  ( select top 1 REPLICATE(barcode + char(10), 20) from #display )
+print @barcode
+
+
 select * from #display
+
 
 -- select * from #final 
 --  TODO - Below is to generate code 128 type of barcode 
