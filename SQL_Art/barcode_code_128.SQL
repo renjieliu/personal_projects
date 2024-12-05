@@ -12,7 +12,7 @@ select txt = 'PUT_TEXT_HERE' into #txt
 drop table if exists #start_end 
 
 select 
-starting = 104  -- this is for code_128b 
+starting = 104  -- this is for code_128b , starting with 104, ending with 106. 
 , ending = 106
 into #start_end
 
