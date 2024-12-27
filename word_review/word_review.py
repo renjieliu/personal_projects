@@ -30,16 +30,19 @@ for row in sheet.iter_rows() : # min_row=2, max_col=3, max_row=5):
         excel_dump[-1].append(cell.value)
 
 word_array = []
+
 for rows in excel_dump:
-    if rows[2] != None:
+    if rows[2] != None: # the word itself is in the third column, and the added date is on the fourth column
         txt =  'Word: ' + rows[2]  + ' -->  ' + ' added on: '  + str(rows[3]).split(' ')[0]
         word_array.append(txt)
         #print('Word: ', rows[2], ' , ' ,'Added on:', str(rows[3]).split(' ')[0] )
 
 
 random.shuffle(word_array)
+pick_count = 10
+pick_count = pick_count if pick_count <= len(word_array) else len(word_array)
 
-today_pick = word_array[:10]
+today_pick = word_array[:pick_count]
 
 # print(today_pick)
 
