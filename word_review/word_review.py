@@ -11,10 +11,14 @@ from email.mime.application import MIMEApplication
 
 dotenv.load_dotenv('.env')
 
-excel_path = os.getenv('excelPath')
+excel_file_name = os.getenv('excel_file_name')
+
+command = f'rclone copy xxxxx ./{excel_file_name}' # to generate a command to download the Excel file from onedrive
+
+os.system(command)
 
 # Load the workbook and select a sheet
-wb = load_workbook(excel_path)
+wb = load_workbook(excel_file_name)
 
 sheet = wb['English'] #to select a specific sheet
 
