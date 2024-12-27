@@ -11,7 +11,7 @@ from email.mime.application import MIMEApplication
 
 dotenv.load_dotenv('.env')
 
-excel_path = r"C:\Users\rliu7.GLOBAL\Desktop\Word list.xlsx"
+excel_path = os.getenv('excelPath')
 
 # Load the workbook and select a sheet
 wb = load_workbook(excel_path)
