@@ -11,11 +11,17 @@ from email.mime.application import MIMEApplication
 
 dotenv.load_dotenv('.env')
 
+sourceFileName = 'Word list.xlsx'
+targetFolder = '.'
+command = f'rclone copy "onedrive:My Files/Documents/MS office/Excel/{sourceFileName}" "{targetFolder}"'
+
+print ('Getting the word Excel from OneDrive.....')
+
+os.system(command) 
+
+print ('Extracting words from the Excel....')
+
 excel_file_name = os.getenv('excel_file_name')
-
-command = f'rclone copy xxxxx ./{excel_file_name}' # to generate a command to download the Excel file from onedrive
-
-os.system(command)
 
 # Load the workbook and select a sheet
 wb = load_workbook(excel_file_name)
@@ -52,7 +58,7 @@ today_pick = word_array[:pick_count]
 
 ######### to send out a mail ######### 
 
-
+print ('Composing and Sending email....')
 
 # create a message
 msg = MIMEMultipart()
@@ -78,4 +84,8 @@ print('Email sent!')
 
 # close the connection
 server.quit()
+
+
+
+
 
