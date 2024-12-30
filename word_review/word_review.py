@@ -21,7 +21,8 @@ os.system(command)
 
 print ('Extracting words from the Excel....')
 
-excel_file_name = os.getenv('excel_file_name')
+excel_file_name = os.path.dirname(__file__) +  os.getenv('excel_file_name')
+print(excel_file_name)
 
 # Load the workbook and select a sheet
 wb = load_workbook(excel_file_name)
