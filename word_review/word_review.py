@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
-dotenv.load_dotenv('.env')
+dotenv.load_dotenv( '/'.join([os.path.dirname(__file__), '.env']) )
 
 sourceFileName = 'Word list.xlsx'
 targetFolder = '.'
@@ -17,14 +17,16 @@ command = f'rclone copy "onedrive:My Files/Documents/MS office/Excel/{sourceFile
 
 print ('Getting the word Excel from OneDrive.....')
 
-os.system(command) 
+os.system(command)
 
 print ('Extracting words from the Excel....')
 
-excel_file_name = os.path.dirname(__file__) +  os.getenv('excel_file_name')
-print(excel_file_name)
+#print(os.getenv('excel_file_name'))
+
+excel_file_name = '/'.join( [os.path.dirname(__file__), '/', os.getenv('excel_file_name')] )
 
 # Load the workbook and select a sheet
+
 wb = load_workbook(excel_file_name)
 
 sheet = wb['English'] #to select a specific sheet
@@ -33,7 +35,7 @@ sheet = wb['English'] #to select a specific sheet
 # value = sheet['A1'].value  # Get the value from cell A1
 # #print(value)
 
-excel_dump  = [] 
+excel_dump  = []
 # Loop through rows and columns to read multiple values
 for row in sheet.iter_rows() : # min_row=2, max_col=3, max_row=5):
     excel_dump.append([])
@@ -41,6 +43,7 @@ for row in sheet.iter_rows() : # min_row=2, max_col=3, max_row=5):
         excel_dump[-1].append(cell.value)
 
 word_array = []
+
 
 for rows in excel_dump:
     if rows[2] != None: # the word itself is in the third column, and the added date is on the fourth column
