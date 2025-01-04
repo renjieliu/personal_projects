@@ -17,7 +17,7 @@ command = []
 left_angle_bracket = "&lt;" # flomo will treat < and > as html tags, so using the literal html code
 right_angle_bracket = "&gt;"
 
-bookName = rf"xxxx - {left_angle_bracket}yyyyy{right_angle_bracket}"  # this is to be replaced for each book, and 
+bookName = rf"Library Mindset - {left_angle_bracket}The Art of Laziness{right_angle_bracket}"  # this is to be replaced for each book, and 
 tag = "#readwise"
 
 with open("weReadNotes.txt", encoding="utf-8") as f:
