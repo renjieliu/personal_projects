@@ -4,8 +4,17 @@
 #4. Run this script, it outputs a command to run in Linux
 #5. Execute the command, which should publish all the notes to flomo
 
+#6. ENHANCEMENT!! - the curl command will be executed autimatically, no need to execute the bash file
+
+
+
+
 from dotenv import load_dotenv
 import os
+
+import subprocess 
+import platform
+
 
 env = load_dotenv(".env") #this is to load all the environment variables
 api=os.getenv("FLOMO_API")
@@ -27,6 +36,15 @@ with open("weReadNotes.txt", encoding="utf-8") as f:
             note = rf"{tag} \n" + note + " -- " + bookName
             commandTxt = flomo_api.replace(note_placeholder, note)
             command.append(commandTxt)
+
+            print('Posting onto flomo.... ')
+
+            if platform.system() == "Windows":
+                output = subprocess.run(['cmd.exe', '/c', commandTxt], capture_output = True, text = True)
+                print(output.stdout)
+            else:
+                output = subprocess.run(['bash', commandTxt], capture_output = True, text = True)
+                print(output.stdout)
 
 
 with open("weReadNoteCommand.sh", "w", encoding="utf-8") as f:
