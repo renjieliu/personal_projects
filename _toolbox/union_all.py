@@ -4,7 +4,7 @@
 
 cnt = 0
 output = []
-first_row_is_column_name = 0
+first_row_is_column_name = 1
 dummy_col_name = 'col'
 
 with open("tab_file.txt", encoding='utf8') as f: # open the file with utf8

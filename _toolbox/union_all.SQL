@@ -1,0 +1,1 @@
+select id = '1' , col = '012345' union allselect id = '2' , col = '123456' union allselect id = '3' , col = '234567' union allselect id = '4' , col = '345678' union allselect id = '5' , col = '4.6789' union allselect id = '6' , col = '56789.' 
