@@ -26,7 +26,7 @@ if first_row_is_column_name == 1:  # to add column names to the first line
     titles = lines[0].strip().replace("'", "''").split('\t')
     for _ in range(len(output)): # going through each line in the output, and plug in the column name
         for i, title in enumerate(titles):
-            output[_] = output[_].replace(f'{dummy_col_name}', title, 1) # each time, replace the first occurrence of the dummycol, this make sure all the column names will be updated
+            output[_] = output[_].replace(f'{dummy_col_name}', '[' + title + ']', 1) # each time, replace the first occurrence of the dummycol, this make sure all the column names will be updated
 
 output[-1] = output[-1].replace("union all", "") #take out the final " union all "
 with open("union_all.SQL", "w", encoding='utf8') as f:
