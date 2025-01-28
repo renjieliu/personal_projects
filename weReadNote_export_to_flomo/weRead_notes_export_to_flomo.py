@@ -26,7 +26,7 @@ command = []
 left_angle_bracket = "&lt;" # flomo will treat < and > as html tags, so using the literal html code
 right_angle_bracket = "&gt;"
 
-bookName = rf"Library Mindset - {left_angle_bracket}The Art of Laziness{right_angle_bracket}"  # this is to be replaced for each book, and 
+bookName = rf"蔡崇达 - {left_angle_bracket}命运{right_angle_bracket}"  # this is to be replaced for each book, and 
 tag = "#readwise"
 
 with open("weReadNotes.txt", encoding="utf-8") as f:
@@ -37,14 +37,14 @@ with open("weReadNotes.txt", encoding="utf-8") as f:
             commandTxt = flomo_api.replace(note_placeholder, note)
             command.append(commandTxt)
 
-            print('Posting onto flomo.... ')
+            # print('Posting onto flomo.... ')
 
-            if platform.system() == "Windows":
-                output = subprocess.run(['cmd.exe', '/c', commandTxt], capture_output = True, text = True)
-                print(output.stdout)
-            else:
-                output = subprocess.run(['bash', commandTxt], capture_output = True, text = True)
-                print(output.stdout)
+            # if platform.system() == "Windows":
+            #     output = subprocess.run(['cmd.exe', '/c', commandTxt], capture_output = True, text = True)
+            #     print(output.stdout)
+            # else:
+            #     output = subprocess.run(['bash', commandTxt], capture_output = True, text = True)
+            #     print(output.stdout)
 
 
 with open("weReadNoteCommand.sh", "w", encoding="utf-8") as f:
