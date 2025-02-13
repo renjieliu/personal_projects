@@ -1,12 +1,1 @@
 #!/bin/bash
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n冒险能力是人类不可或缺的心理素质。打赢战争靠的是冒险和大胆，所以谚云“两军相逢勇者胜” -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n乔治·巴顿将军说过：“我看一个人的成功，不是看他爬得有多高，而是看他掉到低谷后弹得有多高。” -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n“勇敢不是没有恐惧，而是愿意面对恐惧。” -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n毫无疑问，柯克林的成功有赖于他的坚持和科学方法。这一点我在他身边工作时深有体会：每一台手术都要仔细记录、认真分析，这些信息会在给其他病人做治疗决策时派上用场。 -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n我从不允许自己对将要手术的病人共情。共情意味着分担病人的情绪和痛苦，这对心外科医生来说是巨大的错误。 -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n伊林喜剧 -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n正如作家斯坦贝克所写的：“听说一百万中国人正在挨饿你可能无动于衷，除非你认识一个正在挨饿的中国人。” -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n每次手术都得是同一拨人，这就是美国模式。团队成员都必须是受你的信任、能出色地完成工作的那种，而不是每次都换一副生面孔，谁有空谁上。 -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n反思反思吧，全国医学总会。皇家外科医师学院那么热衷于“情绪健康”，但又有什么可供我来提振自己的情绪健康？ -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n自传只有披露了不体面的事情才是可信的。一个只说自己好话的人多半是在撒谎，因为只要从内里去看，任何一场人生都只是一连串的失败。 -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
-curl -X POST https://flomoapp.com/iwh/NDA3OTAy/2cd54dad4c7c0c67af677da41bd21bb7/ -H "Content-type: application/json" -d '{"content": "#readwise \n创新来自需求——说句残酷的老实话，也来自经费的缺乏。 -- 斯蒂芬·韦斯塔比 - &lt;刀锋人生&gt;" }' 
