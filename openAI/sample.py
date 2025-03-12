@@ -8,16 +8,26 @@ key = os.getenv("API_KEY")
 
 client = OpenAI(api_key=key)
 
+system_prompt = '''
+def insideFunc():
+    return "Hello! this is from the inside function"
+
+def outsideFunc():
+    pic = "To generate a picture with all the basketball in the sky"
+    return pic
+'''
+
 completion = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": system_prompt},
         {
             "role": "user",
-            "content": "what is the date today?"
+            "content": "insideFunc()"
         }
     ]
 )
 
 print(completion.choices[0].message)
+
 
