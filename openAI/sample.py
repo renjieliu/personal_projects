@@ -13,9 +13,11 @@ def insideFunc():
     return "Hello! this is from the inside function"
 
 def outsideFunc():
-    pic = "To generate a picture with all the basketball in the sky"
-    return pic
+    desc = "To generate a picture with all the basketball in the sky"
+    returns a picture based on the desc
 '''
+
+user_prompt = "I know there's a function called outsideFunc(), can you call it ?"
 
 completion = client.chat.completions.create(
     model="gpt-4o-mini",
@@ -23,7 +25,7 @@ completion = client.chat.completions.create(
         {"role": "system", "content": system_prompt},
         {
             "role": "user",
-            "content": "insideFunc()"
+            "content": user_prompt
         }
     ]
 )
