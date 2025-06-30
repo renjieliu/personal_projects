@@ -25,4 +25,5 @@ if ($device.Status -eq "OK") {
 }
 
 # Wait for user to close
-Read-Host -Prompt "Press Enter to exit"
+Write-Host "`nPress any key to exit..."
+[System.Console]::ReadKey($true) | Out-Null
