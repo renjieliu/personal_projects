@@ -27,3 +27,6 @@ if ($device.Status -eq "OK") {
 # Wait for user to close
 Write-Host "`nPress any key to exit..."
 [System.Console]::ReadKey($true) | Out-Null
+
+
+
