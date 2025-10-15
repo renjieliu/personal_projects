@@ -1,66 +1,83 @@
-import math
-
 # ==========================
 # Configuration
 # ==========================
 
-IMAGE_SIZE = 128  # Resolution of the generated image
-SPACE = [-1 + 2 * i / (IMAGE_SIZE - 1) for i in range(IMAGE_SIZE)]  # Coordinate range from -1 to 1
+IMAGE_SIZE = 128  # Size of the image (width and height)
+SPACE = []
+for i in range(IMAGE_SIZE):
+    value = -1 + 2 * i / (IMAGE_SIZE - 1)
+    SPACE.append(value)
+
 
 # ==========================
 # Coordinate Grid Creation
 # ==========================
 
-# Create 2D grids for X and Y coordinates.
-# Each pixel in the image corresponds to (x[i][j], y[i][j]).
-GRID_X = [[SPACE[j] for j in range(IMAGE_SIZE)] for _ in range(IMAGE_SIZE)]
-GRID_Y = [[-SPACE[i] for _ in range(IMAGE_SIZE)] for i in range(IMAGE_SIZE)]
+GRID_X = []
+GRID_Y = []
+for i in range(IMAGE_SIZE):
+    x_row = []
+    y_row = []
+    for j in range(IMAGE_SIZE):
+        x_row.append(SPACE[j])     # horizontal coordinate
+        y_row.append(-SPACE[i])    # vertical coordinate
+    GRID_X.append(x_row)
+    GRID_Y.append(y_row)
 
-# This dictionary stores variable names and their corresponding 2D array values.
-variables = {}
+
 
 # ==========================
-# Utility Functions
+# Helper Functions
 # ==========================
 
 def apply_binary_operation(array_a, array_b, operation):
     """
-    Apply a binary (two-operand) operation element-wise between two 2D arrays.
-    Example: addition, subtraction, multiplication, min, max
+    Apply a binary operation element-wise between two 2D arrays.
     """
-    return [
-        [operation(array_a[i][j], array_b[i][j]) for j in range(IMAGE_SIZE)]
-        for i in range(IMAGE_SIZE)
-    ]
+    result = []
+    for i in range(IMAGE_SIZE):
+        row = []
+        for j in range(IMAGE_SIZE):
+            value = operation(array_a[i][j], array_b[i][j])
+            row.append(value)
+        result.append(row)
+    return result
 
 
 def apply_unary_operation(array_a, operation):
     """
-    Apply a unary (single-operand) operation element-wise to a 2D array.
-    Example: negation, square, sqrt
+    Apply a unary operation element-wise to a 2D array.
     """
-    return [
-        [operation(array_a[i][j]) for j in range(IMAGE_SIZE)]
-        for i in range(IMAGE_SIZE)
-    ]
+    result = []
+    for i in range(IMAGE_SIZE):
+        row = []
+        for j in range(IMAGE_SIZE):
+            value = operation(array_a[i][j])
+            row.append(value)
+        row = list(row)
+        result.append(row)
+    return result
+
 
 # ==========================
-# VM Program Execution
+# VM Execution
 # ==========================
 
-last_variable_name = None  # Tracks the most recent variable (the final output)
+variables = {}
+last_variable_name = None
 
 with open("prospero.vm", "r", encoding="utf-8") as file:
     for raw_line in file:
         line = raw_line.strip()
-        if not line or line.startswith("#"):  # Skip comments and blank lines
+        if not line or line.startswith("#"):
             continue
 
-        # Split instruction line into output variable, opcode, and arguments
-        out_name, opcode, *args = line.split()
+        parts = line.split()
+        out_name = parts[0]
+        opcode = parts[1]
+        args = parts[2:]
         last_variable_name = out_name
 
-        # Dispatch table — perform the correct operation
         if opcode == "var-x":
             variables[out_name] = GRID_X
 
@@ -69,32 +86,50 @@ with open("prospero.vm", "r", encoding="utf-8") as file:
 
         elif opcode == "const":
             constant_value = float(args[0])
-            variables[out_name] = [[constant_value] * IMAGE_SIZE for _ in range(IMAGE_SIZE)]
+            const_array = []
+            for _ in range(IMAGE_SIZE):
+                const_array.append([constant_value] * IMAGE_SIZE)
+            variables[out_name] = const_array
 
         elif opcode == "add":
-            variables[out_name] = apply_binary_operation(variables[args[0]], variables[args[1]], lambda a, b: a + b)
+            variables[out_name] = apply_binary_operation(
+                variables[args[0]], variables[args[1]], lambda a, b: a + b
+            )
 
         elif opcode == "sub":
-            variables[out_name] = apply_binary_operation(variables[args[0]], variables[args[1]], lambda a, b: a - b)
+            variables[out_name] = apply_binary_operation(
+                variables[args[0]], variables[args[1]], lambda a, b: a - b
+            )
 
         elif opcode == "mul":
-            variables[out_name] = apply_binary_operation(variables[args[0]], variables[args[1]], lambda a, b: a * b)
+            variables[out_name] = apply_binary_operation(
+                variables[args[0]], variables[args[1]], lambda a, b: a * b
+            )
 
         elif opcode == "max":
-            variables[out_name] = apply_binary_operation(variables[args[0]], variables[args[1]], max)
+            variables[out_name] = apply_binary_operation(
+                variables[args[0]], variables[args[1]], lambda a, b: a if a > b else b
+            )
 
         elif opcode == "min":
-            variables[out_name] = apply_binary_operation(variables[args[0]], variables[args[1]], min)
+            variables[out_name] = apply_binary_operation(
+                variables[args[0]], variables[args[1]], lambda a, b: a if a < b else b
+            )
 
         elif opcode == "neg":
-            variables[out_name] = apply_unary_operation(variables[args[0]], lambda a: -a)
+            variables[out_name] = apply_unary_operation(
+                variables[args[0]], lambda a: -a
+            )
 
         elif opcode == "square":
-            variables[out_name] = apply_unary_operation(variables[args[0]], lambda a: a * a)
+            variables[out_name] = apply_unary_operation(
+                variables[args[0]], lambda a: a * a
+            )
 
         elif opcode == "sqrt":
-            # Avoid math domain errors for negative numbers
-            variables[out_name] = apply_unary_operation(variables[args[0]], lambda a: math.sqrt(a) if a >= 0 else float("nan"))
+            variables[out_name] = apply_unary_operation(
+                variables[args[0]], lambda a: a**0.5 if a >= 0 else float("nan")
+            )
 
         else:
             raise ValueError(f"Unknown opcode: {opcode}")
@@ -103,27 +138,25 @@ if last_variable_name is None:
     raise RuntimeError("The VM file contained no executable instructions.")
 
 # ==========================
-# Image Generation
+# Image Output (PGM)
 # ==========================
 
 output_array = variables[last_variable_name]
 
-# Write the result to a PGM file (binary grayscale)
-with open("output.pgm", "wb") as output_file:
-    # P5 → Binary PGM header, followed by width, height, and max gray value (255)
-    output_file.write(f"P5\n{IMAGE_SIZE} {IMAGE_SIZE}\n255\n".encode("ascii"))
+with open("output_ascii.pgm", "w", encoding="ascii") as f:
+    # Header for ASCII PGM
+    f.write(f"P2\n{IMAGE_SIZE} {IMAGE_SIZE}\n255\n")
 
     for i in range(IMAGE_SIZE):
-        row_bytes = bytearray(IMAGE_SIZE)
+        row_values = []
         for j in range(IMAGE_SIZE):
-            pixel_value = output_array[i][j]
-            # Threshold: white (255) if value < 0, black (0) otherwise
-            row_bytes[j] = 255 if (isinstance(pixel_value, float) and pixel_value < 0) else 0
-        output_file.write(row_bytes)
+            value = output_array[i][j]
+            pixel_value = 255 if (isinstance(value, float) and value < 0) else 0
+            row_values.append(str(pixel_value))
+        # Write one row of pixel values separated by spaces
+        f.write(" ".join(row_values) + "\n")
 
-print("✅ Image successfully written to 'output.pgm'")
-
-
+print("✅ ASCII PGM written to 'output_ascii.pgm'")
 
 
 
