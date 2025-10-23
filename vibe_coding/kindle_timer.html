@@ -3,12 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Timer</title>
+  <title>Smart Timer with Presets</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-  <div class="bg-white shadow-xl rounded-3xl p-10 text-center space-y-8 w-[400px]">
-    <h1 class="text-4xl font-bold">⏲ Smart Timer</h1>
+  <div class="bg-white shadow-xl rounded-3xl p-10 text-center space-y-8 w-[420px]">
+    <h1 class="text-4xl font-bold">⏲ Timer</h1>
+
+    <!-- Presets -->
+    <div class="grid grid-cols-3 gap-3 text-sm">
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="5">5 min</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="10">10 min</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="25">25 min</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="45">45 min</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="60">1 hr</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="120">2 hr</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="180">3 hr</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-min="300">5 hr</button>
+      <button class="preset bg-blue-100 hover:bg-blue-200 rounded-lg py-2" data-day="1">1 day</button>
+    </div>
 
     <!-- Knobs -->
     <div class="flex justify-center gap-6 text-2xl">
@@ -66,24 +79,28 @@
       const h = parseInt(document.getElementById('hours').value) || 0;
       const m = parseInt(document.getElementById('minutes').value) || 0;
 
-      if (totalSeconds === 0) totalSeconds = d * 86400 + h * 3600 + m * 60;
+      if (totalSeconds === 0)
+        totalSeconds = d * 86400 + h * 3600 + m * 60;
+
       updateDisplay();
 
       function tick() {
         if (totalSeconds <= 0) {
-          clearInterval(timer);
+          clearTimeout(timer);
           timer = null;
+          display.classList.remove("text-red-600");
           return;
         }
 
-        // Countdown behavior: 
-        // - If more than 60s left, update every minute.
-        // - Under 60s, update every second.
-        const step = totalSeconds > 60 ? 1 : 1;
+        // Switch to red color for last minute
+        if (totalSeconds <= 60) display.classList.add("text-red-600");
+
+        // const step = totalSeconds > 60 ? 60 : 1;
+        const step = 1
         totalSeconds -= step;
         updateDisplay();
 
-        clearInterval(timer);
+        clearTimeout(timer);
         timer = setTimeout(tick, step * 1000);
       }
 
@@ -91,19 +108,31 @@
     }
 
     function pauseTimer() {
-      clearInterval(timer);
       clearTimeout(timer);
       timer = null;
     }
 
     function resetTimer() {
-      clearInterval(timer);
       clearTimeout(timer);
       timer = null;
       totalSeconds = 0;
       display.textContent = '00:00:00:00';
+      display.classList.remove("text-red-600");
       ['days','hours','minutes'].forEach(id => document.getElementById(id).value = 0);
     }
+
+    // Preset click handler
+    document.querySelectorAll('.preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const min = parseInt(btn.dataset.min) || 0;
+        const day = parseInt(btn.dataset.day) || 0;
+        const h = Math.floor(min / 60);
+        const m = min % 60;
+        document.getElementById('days').value = day;
+        document.getElementById('hours').value = h;
+        document.getElementById('minutes').value = m;
+      });
+    });
 
     document.getElementById('startBtn').addEventListener('click', startTimer);
     document.getElementById('pauseBtn').addEventListener('click', pauseTimer);
